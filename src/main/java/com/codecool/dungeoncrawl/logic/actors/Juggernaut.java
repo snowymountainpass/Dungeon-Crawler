@@ -5,24 +5,19 @@ import com.codecool.dungeoncrawl.logic.CellType;
 
 import java.util.concurrent.ThreadLocalRandom;
 
-public class Skeleton extends Actor {
+public class Juggernaut extends Actor {
 
     private int burrow = 5;
 
-    public Skeleton(Cell cell) {
-
+    public Juggernaut(Cell cell) {
         super(cell);
-        this.setHealth(25);
-        this.setStrength(5);
+        this.setHealth(50);
+        this.setStrength(10);
+        this.setArmor(10);
     }
 
     @Override
-    public String getTileName() {
-
-        return "skeleton";
-    }
-
-    public void move(){
+    public void move() {
         Cell nextCell;
         try {
             int x = ThreadLocalRandom.current().nextInt(-1, 1 + 1);
@@ -68,11 +63,15 @@ public class Skeleton extends Actor {
         } catch (Exception e) {
             burrow = 5;
         }
-
     }
 
     public void setBurrow(int b) {
         burrow = b;
     }
 
+
+    @Override
+    public String getTileName() {
+        return "juggernaut";
+    }
 }

@@ -1,9 +1,16 @@
 package com.codecool.dungeoncrawl.logic;
 
+
 public enum CellType {
     EMPTY("empty"),
     FLOOR("floor"),
-    WALL("wall");
+    FLOOR_FANCY("floor_fancy"),
+    WALL("wall"),
+    SECRET_WALL("secret_wall"),
+    VINE("vine"),
+    TORCH("torch"),
+    RUBBLE("rubble"),
+    DOOR("door");
 
     private final String tileName;
 
