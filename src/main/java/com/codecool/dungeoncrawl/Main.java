@@ -4,10 +4,13 @@ import com.codecool.dungeoncrawl.dao.GameDatabaseManager;
 import com.codecool.dungeoncrawl.logic.*;
 import com.codecool.dungeoncrawl.logic.actors.*;
 import javafx.application.Application;
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.geometry.Insets;
 import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
+import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.BorderPane;
@@ -34,6 +37,9 @@ public class Main extends Application {
     ModalHandler modal = new ModalHandler();
     Player player = map.getPlayer();
 
+    Button saveButton = new Button("Save Game");
+    Button loadButton = new Button("Load Game");
+
     public static void main(String[] args) {
         launch(args);
     }
@@ -59,6 +65,26 @@ public class Main extends Application {
 
         ui.add(new Label("Inventory: "), 0, 4);
         ui.add(inventoryLabel, 1, 4);
+
+        ui.add(new Label(""), 0, 5);
+        ui.add(saveButton, 0, 6);
+
+        ui.add(new Label(""), 0, 7);
+        ui.add(loadButton, 0, 8);
+
+        saveButton.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent actionEvent) {
+                System.out.println("SAVE BUTTON CLICKED");
+            }
+        });
+
+        loadButton.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent actionEvent) {
+                System.out.println("LOAD BUTTON CLICKED");
+            }
+        });
 
         BorderPane borderPane = new BorderPane();
 
