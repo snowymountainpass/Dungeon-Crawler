@@ -31,6 +31,7 @@ public class ModalHandler {
         String saveName = nameInput.getText();
         save.setOnAction(event -> {
             dbManager.saveGame(player);
+            saveStage.close();
         });
         cancel.setOnAction(event -> saveStage.close());
     }

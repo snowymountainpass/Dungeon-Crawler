@@ -76,8 +76,10 @@ public class Main extends Application {
             @Override
             public void handle(ActionEvent actionEvent) {
                 System.out.println("SAVE BUTTON CLICKED");
+                modal.saveGameModal(dbManager, player);
             }
         });
+        saveButton.setFocusTraversable(false);
 
         loadButton.setOnAction(new EventHandler<ActionEvent>() {
             @Override
@@ -85,6 +87,7 @@ public class Main extends Application {
                 System.out.println("LOAD BUTTON CLICKED");
             }
         });
+        loadButton.setFocusTraversable(false);
 
         BorderPane borderPane = new BorderPane();
 
@@ -111,33 +114,36 @@ public class Main extends Application {
 
     private void onKeyPressed(KeyEvent keyEvent) {
         switch (keyEvent.getCode()) {
-            case UP:
+            case UP,W:
 
                 map.getPlayer().move(0, -1);
                 enemyMove();
                 refresh();
 
                 break;
-            case DOWN:
+            case DOWN,S:
+
                 map.getPlayer().move(0, 1);
                 enemyMove();
                 refresh();
                 break;
-            case LEFT:
+            case LEFT,A:
+
                 map.getPlayer().move(-1, 0);
                 enemyMove();
                 refresh();
                 break;
-            case RIGHT:
+            case RIGHT,D:
+
                 map.getPlayer().move(1, 0);
                 enemyMove();
                 refresh();
                 break;
-            case S:
-                if (keyEvent.isControlDown()) {
-                    modal.saveGameModal(dbManager, player);
-                }
-                break;
+//            case S:
+//                if (keyEvent.isControlDown()) {
+//                    modal.saveGameModal(dbManager, player);
+//                }
+//                break;
         }
     }
 
