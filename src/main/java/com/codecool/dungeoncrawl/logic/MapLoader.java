@@ -5,11 +5,12 @@ import com.codecool.dungeoncrawl.logic.items.*;
 
 import java.io.InputStream;
 import java.util.Scanner;
-import java.awt.*;
 
 public class MapLoader {
-    public static GameMap loadMap() {
-        InputStream is = MapLoader.class.getResourceAsStream("/map.txt");
+    public static GameMap loadMap(int level) {
+
+//        InputStream is = MapLoader.class.getResourceAsStream("/map1.txt");
+        InputStream is = MapLoader.class.getResourceAsStream("/map"+level+".txt");
         Scanner scanner = new Scanner(is);
         int width = scanner.nextInt();
         int height = scanner.nextInt();
