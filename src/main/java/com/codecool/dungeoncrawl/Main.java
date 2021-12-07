@@ -1,9 +1,7 @@
 package com.codecool.dungeoncrawl;
 
-import com.codecool.dungeoncrawl.logic.Cell;
-import com.codecool.dungeoncrawl.logic.CellType;
-import com.codecool.dungeoncrawl.logic.GameMap;
-import com.codecool.dungeoncrawl.logic.MapLoader;
+import com.codecool.dungeoncrawl.dao.GameDatabaseManager;
+import com.codecool.dungeoncrawl.logic.*;
 import com.codecool.dungeoncrawl.logic.actors.*;
 import javafx.application.Application;
 import javafx.geometry.Insets;
@@ -18,6 +16,8 @@ import javafx.scene.paint.Color;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
+import java.sql.SQLException;
+
 
 public class Main extends Application {
     GameMap map = MapLoader.loadMap();
@@ -30,6 +30,9 @@ public class Main extends Application {
     Label armorLabel = new Label();
     Label keyLabel = new Label();
     Label inventoryLabel = new Label();
+    GameDatabaseManager dbManager;
+    ModalHandler modal = new ModalHandler();
+    Player player = map.getPlayer();
 
     public static void main(String[] args) {
         launch(args);
@@ -37,6 +40,7 @@ public class Main extends Application {
 
     @Override
     public void start(Stage primaryStage) throws Exception {
+        setupDbManager();
         GridPane ui = new GridPane();
         ui.setPrefWidth(200);
         ui.setPadding(new Insets(10));
@@ -106,9 +110,22 @@ public class Main extends Application {
                 enemyMove();
                 refresh();
                 break;
+            case S:
+                if (keyEvent.isControlDown()) {
+                    modal.saveGameModal(dbManager, player);
+                }
+                break;
         }
     }
 
+    private void setupDbManager() {
+        dbManager = new GameDatabaseManager();
+        try {
+            dbManager.setup();
+        } catch (SQLException ex) {
+            System.out.println("Cannot connect to database.");
+        }
+    }
     private void refresh() {
 
         if (map.getPlayer().isDead()) {
