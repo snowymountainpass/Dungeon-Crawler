@@ -35,6 +35,7 @@ public class Main extends Application {
     Label inventoryLabel = new Label();
 
     Button saveButton = new Button("Save Game");
+    Button loadButton = new Button("Load Game");
 
     public static void main(String[] args) {
         launch(args);
@@ -64,10 +65,20 @@ public class Main extends Application {
         ui.add(new Label(""), 0, 5);
         ui.add(saveButton, 0, 6);
 
+        ui.add(new Label(""), 0, 7);
+        ui.add(loadButton, 0, 8);
+
         saveButton.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent actionEvent) {
                 System.out.println("SAVE BUTTON CLICKED");
+            }
+        });
+
+        loadButton.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent actionEvent) {
+                System.out.println("LOAD BUTTON CLICKED");
             }
         });
 
