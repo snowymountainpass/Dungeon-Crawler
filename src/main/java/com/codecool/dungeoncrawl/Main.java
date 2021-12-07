@@ -23,7 +23,8 @@ import java.sql.SQLException;
 
 
 public class Main extends Application {
-    GameMap map = MapLoader.loadMap();
+    int currentLevel = 1;
+    GameMap map = MapLoader.loadMap(currentLevel);
     Canvas canvas = new Canvas(
             map.getWidth() * Tiles.TILE_WIDTH,
             map.getHeight() * Tiles.TILE_WIDTH);
@@ -43,6 +44,8 @@ public class Main extends Application {
     public static void main(String[] args) {
         launch(args);
     }
+
+
 
     @Override
     public void start(Stage primaryStage) throws Exception {
@@ -112,10 +115,35 @@ public class Main extends Application {
         }
     }
 
+
+//    public void loadNextLevel(int level) {
+//        this.map = MapLoader.loadMap(level);
+//        this.move = new Move(this.map);
+//        refresh();
+//    }
+
+    public  int getCurrentLevel(){
+        return currentLevel;
+    }
+
+    public void setCurrentLevel(int level) {
+        this.currentLevel = level;
+    }
+
+
+
     private void onKeyPressed(KeyEvent keyEvent) {
         switch (keyEvent.getCode()) {
             case UP,W:
 
+                if (player.getInventory().getKeyInInventory() && map.getCell(player.getX(), player.getY()).getNeighbor(0, -1).getType() == CellType.DOOR){
+
+                    currentLevel++;
+                    this.map = MapLoader.loadMap(currentLevel);
+                    refresh();
+                    break;
+
+                }
                 map.getPlayer().move(0, -1);
                 enemyMove();
                 refresh();
@@ -123,17 +151,44 @@ public class Main extends Application {
                 break;
             case DOWN,S:
 
+                if (player.getInventory().getKeyInInventory() && map.getCell(player.getX(), player.getY()).getNeighbor(0, 1).getType() == CellType.DOOR){
+
+                    currentLevel++;
+                    this.map = MapLoader.loadMap(currentLevel);
+                    refresh();
+                    break;
+
+                }
+
                 map.getPlayer().move(0, 1);
                 enemyMove();
                 refresh();
                 break;
             case LEFT,A:
 
+                if (player.getInventory().getKeyInInventory() && map.getCell(player.getX(), player.getY()).getNeighbor(-1, 0).getType() == CellType.DOOR){
+
+                    currentLevel++;
+                    this.map = MapLoader.loadMap(currentLevel);
+                    refresh();
+                    break;
+
+                }
+
                 map.getPlayer().move(-1, 0);
                 enemyMove();
                 refresh();
                 break;
             case RIGHT,D:
+
+                if (player.getInventory().getKeyInInventory() && map.getCell(player.getX(), player.getY()).getNeighbor(1, 0).getType() == CellType.DOOR){
+
+                    currentLevel++;
+                    this.map = MapLoader.loadMap(currentLevel);
+                    refresh();
+                    break;
+
+                }
 
                 map.getPlayer().move(1, 0);
                 enemyMove();
