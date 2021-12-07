@@ -1,5 +1,6 @@
 package com.codecool.dungeoncrawl.dao;
 
+import com.codecool.dungeoncrawl.ApplicationProperties;
 import com.codecool.dungeoncrawl.logic.actors.Player;
 import com.codecool.dungeoncrawl.model.GameState;
 import com.codecool.dungeoncrawl.model.PlayerModel;
@@ -27,13 +28,13 @@ public class GameDatabaseManager {
 
     private DataSource connect() throws SQLException {
         PGSimpleDataSource dataSource = new PGSimpleDataSource();
-        String dbName = "dungeon";
-        String user = "radu";
-        String password = "sehulop194";
-
-        dataSource.setDatabaseName(dbName);
-        dataSource.setUser(user);
-        dataSource.setPassword(password);
+//        String dbName = "test";
+//        String user = "test";
+//        String password = "test";
+        ApplicationProperties properties = new ApplicationProperties();
+        dataSource.setDatabaseName(properties.readProperty("database"));
+        dataSource.setUser(properties.readProperty("user"));
+        dataSource.setPassword(properties.readProperty("password"));
 
         System.out.println("Trying to connect");
         dataSource.getConnection().close();
