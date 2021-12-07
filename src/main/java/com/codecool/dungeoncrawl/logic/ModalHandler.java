@@ -4,6 +4,7 @@ import com.codecool.dungeoncrawl.dao.GameDatabaseManager;
 
 import com.codecool.dungeoncrawl.logic.actors.Player;
 
+import com.codecool.dungeoncrawl.model.GameState;
 import javafx.geometry.Insets;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
@@ -16,7 +17,7 @@ import java.sql.Date;
 public class ModalHandler {
     private int gameId;
 
-    public void saveGameModal(GameDatabaseManager dbManager, Player player) {
+    public void saveGameModal(GameDatabaseManager dbManager, Player player, GameState state) {
         TextField nameInput = new TextField("Name");
         Button save = new Button("Save");
         Button cancel = new Button("Cancel");
@@ -31,6 +32,7 @@ public class ModalHandler {
         String saveName = nameInput.getText();
         save.setOnAction(event -> {
             dbManager.saveGame(player);
+            dbManager.saveGameState(player,state);
             saveStage.close();
         });
         cancel.setOnAction(event -> saveStage.close());

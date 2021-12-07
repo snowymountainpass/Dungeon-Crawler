@@ -1,7 +1,9 @@
 package com.codecool.dungeoncrawl.logic;
 
+import com.codecool.dungeoncrawl.dao.PlayerDaoJdbc;
 import com.codecool.dungeoncrawl.logic.actors.*;
 import com.codecool.dungeoncrawl.logic.items.*;
+import com.codecool.dungeoncrawl.model.GameState;
 
 import java.io.InputStream;
 import java.util.Scanner;
@@ -54,7 +56,13 @@ public class MapLoader {
                             break;
                         case '@':
                             cell.setType(CellType.FLOOR);
-                            map.setPlayer(new Player(cell));
+                            if(level==1){
+                                map.setPlayer(new Player(cell));
+                            }
+                            else {
+//                                map.setPlayer(new );
+
+                            }
                             break;
                         case '{':
                             cell.setType(CellType.FLOOR);

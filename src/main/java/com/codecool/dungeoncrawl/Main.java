@@ -3,6 +3,8 @@ package com.codecool.dungeoncrawl;
 import com.codecool.dungeoncrawl.dao.GameDatabaseManager;
 import com.codecool.dungeoncrawl.logic.*;
 import com.codecool.dungeoncrawl.logic.actors.*;
+import com.codecool.dungeoncrawl.model.GameState;
+import com.codecool.dungeoncrawl.model.PlayerModel;
 import javafx.application.Application;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
@@ -20,6 +22,10 @@ import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
 import java.sql.SQLException;
+import java.sql.Time;
+import java.sql.Timestamp;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 
 public class Main extends Application {
@@ -37,6 +43,8 @@ public class Main extends Application {
     GameDatabaseManager dbManager;
     ModalHandler modal = new ModalHandler();
     Player player = map.getPlayer();
+    private Date date;
+    GameState state = new GameState("map1.txt",new Timestamp(System.currentTimeMillis()),state.getPlayer().getId());
 
     Button saveButton = new Button("Save Game");
     Button loadButton = new Button("Load Game");
@@ -79,7 +87,7 @@ public class Main extends Application {
             @Override
             public void handle(ActionEvent actionEvent) {
                 System.out.println("SAVE BUTTON CLICKED");
-                modal.saveGameModal(dbManager, player);
+                modal.saveGameModal(dbManager, player,state);
             }
         });
         saveButton.setFocusTraversable(false);
