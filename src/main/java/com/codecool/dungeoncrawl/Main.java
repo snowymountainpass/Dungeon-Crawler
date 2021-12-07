@@ -6,10 +6,13 @@ import com.codecool.dungeoncrawl.logic.GameMap;
 import com.codecool.dungeoncrawl.logic.MapLoader;
 import com.codecool.dungeoncrawl.logic.actors.*;
 import javafx.application.Application;
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.geometry.Insets;
 import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
+import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.BorderPane;
@@ -30,6 +33,8 @@ public class Main extends Application {
     Label armorLabel = new Label();
     Label keyLabel = new Label();
     Label inventoryLabel = new Label();
+
+    Button saveButton = new Button("Save Game");
 
     public static void main(String[] args) {
         launch(args);
@@ -55,6 +60,16 @@ public class Main extends Application {
 
         ui.add(new Label("Inventory: "), 0, 4);
         ui.add(inventoryLabel, 1, 4);
+
+        ui.add(new Label(""), 0, 5);
+        ui.add(saveButton, 0, 6);
+
+        saveButton.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent actionEvent) {
+                System.out.println("SAVE BUTTON CLICKED");
+            }
+        });
 
         BorderPane borderPane = new BorderPane();
 
