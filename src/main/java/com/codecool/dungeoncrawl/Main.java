@@ -222,7 +222,7 @@ public class Main extends Application {
     }
     private void refresh() {
 
-        if (map.getPlayer().isDead()) {
+        if (playerModel.getHp()<=0) { //map.getPlayer().isDead()
             System.out.println("Player has died");
             map.getPlayer().getCell().setType(CellType.FLOOR);
             map.getPlayer().getCell().setActor(null);
@@ -246,11 +246,11 @@ public class Main extends Application {
                     }
                 }
             }
-            healthLabel.setText("" + map.getPlayer().getHealth());
-            strengthLabel.setText("" + map.getPlayer().getStrength());
-            armorLabel.setText("" + map.getPlayer().getArmor());
-            keyLabel.setText("" + map.getPlayer().getInventory().getKeyInInventory());
-            inventoryLabel.setText("" + map.getPlayer().showInventory());
+            healthLabel.setText("" + playerModel.getHp()); //map.getPlayer().getHealth()
+//            strengthLabel.setText("" + map.getPlayer().getStrength());
+//            armorLabel.setText("" + map.getPlayer().getArmor());
+//            keyLabel.setText("" + map.getPlayer().getInventory().getKeyInInventory());
+//            inventoryLabel.setText("" + map.getPlayer().showInventory());
         }
     }
 }
