@@ -31,8 +31,8 @@ import java.util.Locale;
 public class Main extends Application {
     int currentLevel = 1;
 
-    private final int mapWidth = 30;
-    private final int mapHeight = 25;
+    private final int mapWidth = 30; //30
+    private final int mapHeight = 25; //25
 
     private boolean gameLoaded = false;
 
@@ -361,11 +361,11 @@ public class Main extends Application {
                     }
                 }
             }
-            healthLabel.setText("" + playerModel.getHp()); //map.getPlayer().getHealth()
-//            strengthLabel.setText("" + map.getPlayer().getStrength());
-//            armorLabel.setText("" + map.getPlayer().getArmor());
-//            keyLabel.setText("" + map.getPlayer().getInventory().getKeyInInventory());
-//            inventoryLabel.setText("" + map.getPlayer().showInventory());
+            healthLabel.setText("" + map.getPlayer().getHealth());
+            strengthLabel.setText("" + map.getPlayer().getStrength());
+            armorLabel.setText("" + map.getPlayer().getArmor());
+            keyLabel.setText("" + map.getPlayer().getInventory().getKeyInInventory());
+            inventoryLabel.setText("" + map.getPlayer().showInventory());
         }
     }
 }
