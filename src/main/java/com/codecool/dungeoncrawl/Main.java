@@ -12,6 +12,7 @@ import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.control.TextField;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
@@ -20,10 +21,17 @@ import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
 import java.sql.SQLException;
+import java.util.Locale;
 
 
 public class Main extends Application {
     int currentLevel = 1;
+
+    private boolean gameLoaded = false;
+
+    GridPane ui = new GridPane();
+
+
     GameMap map = MapLoader.loadMap(currentLevel);
     Canvas canvas = new Canvas(
             map.getWidth() * Tiles.TILE_WIDTH,
@@ -38,42 +46,52 @@ public class Main extends Application {
     ModalHandler modal = new ModalHandler();
     Player player = map.getPlayer();
 
+    Label currentPlayer = new Label("Player");
+
     Button saveButton = new Button("Save Game");
     Button loadButton = new Button("Load Game");
+    Button closeButton = new Button("Close");
+
+    Button enterNameButton = new Button("Enter");
+    Label nameInputLabel = new Label("Enter your name: ");
+    TextField playerNameField = new TextField();
+
 
     public static void main(String[] args) {
         launch(args);
     }
 
 
-
     @Override
     public void start(Stage primaryStage) throws Exception {
         setupDbManager();
-        GridPane ui = new GridPane();
-        ui.setPrefWidth(200);
+
+        ui.setPrefWidth(350);
         ui.setPadding(new Insets(10));
 
-        ui.add(new Label("Health: "), 0, 0);
-        ui.add(healthLabel, 1, 0);
+        ui.add(currentPlayer, 0, 0);
 
-        ui.add(new Label("Strength: "), 0, 1);
-        ui.add(strengthLabel, 1, 1);
+        ui.add(new Label("Health: "), 1, 1);
+        ui.add(healthLabel, 2, 1);
 
-        ui.add(new Label("Armor: "), 0, 2);
-        ui.add(armorLabel, 1, 2);
+        ui.add(new Label("Strength: "), 1, 2);
+        ui.add(strengthLabel, 2, 2);
 
-        ui.add(new Label("Key in inventory "), 0, 3);
-        ui.add(keyLabel, 1, 3);
+        ui.add(new Label("Armor: "), 1, 3);
+        ui.add(armorLabel, 2, 3);
 
-        ui.add(new Label("Inventory: "), 0, 4);
-        ui.add(inventoryLabel, 1, 4);
+        ui.add(new Label("Key in inventory "), 1, 4);
+        ui.add(keyLabel, 2, 4);
 
-        ui.add(new Label(""), 0, 5);
-        ui.add(saveButton, 0, 6);
+        ui.add(new Label("Inventory: "), 1, 5);
+        ui.add(inventoryLabel, 2, 5);
 
-        ui.add(new Label(""), 0, 7);
-        ui.add(loadButton, 0, 8);
+        ui.add(new Label(""), 1, 6);
+        ui.add(saveButton, 1, 7);
+
+        ui.add(new Label(""), 1, 8);
+        ui.add(loadButton, 1, 9);
+
 
         saveButton.setOnAction(new EventHandler<ActionEvent>() {
             @Override
@@ -84,6 +102,7 @@ public class Main extends Application {
         });
         saveButton.setFocusTraversable(false);
 
+        // TO BE IMPLEMENTED : SET FLAG LOADGAME TRUE
         loadButton.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent actionEvent) {
@@ -91,6 +110,47 @@ public class Main extends Application {
             }
         });
         loadButton.setFocusTraversable(false);
+
+        if (!gameLoaded) {
+            ui.add(new Label(""), 0, 15);
+            ui.add(nameInputLabel, 0, 17);
+            playerNameField.setPrefWidth(150);
+            ui.add(playerNameField, 1, 16);
+            ui.add(enterNameButton, 1, 18);
+            ui.add(closeButton, 2, 18);
+
+            enterNameButton.setOnAction(new EventHandler<ActionEvent>() {
+                @Override
+                public void handle(ActionEvent actionEvent) {
+                    map.getPlayer().setName(playerNameField.getText());
+                    currentPlayer.setText(playerNameField.getText());
+                    ui.getChildren().remove(nameInputLabel);
+                    ui.getChildren().remove(playerNameField);
+                    ui.getChildren().remove(enterNameButton);
+                    ui.getChildren().remove(closeButton);
+                    if (playerNameField.getText().equalsIgnoreCase("meow")) {
+                        map.getPlayer().setHealth(1000);
+                        map.getPlayer().setStrength(1000);
+                    }
+                    // "classes" ?
+                    if (playerNameField.getText().contains("hero".toLowerCase(Locale.ROOT))) {
+                        map.getPlayer().setHealth(250);
+                        map.getPlayer().setStrength(25);
+                    }
+                    gameLoaded = true;
+                    canvas.requestFocus();
+                }
+            });
+            closeButton.setOnAction(new EventHandler<ActionEvent>() {
+                @Override
+                public void handle(ActionEvent actionEvent) {
+                    removeNameLabel();
+                    canvas.requestFocus();
+                }
+            });
+
+        }
+
 
         BorderPane borderPane = new BorderPane();
 
@@ -107,9 +167,20 @@ public class Main extends Application {
 
         primaryStage.setTitle("Dungeon Crawl");
         primaryStage.show();
+        canvas.requestFocus();
     }
 
-    private void enemyMove () {
+    private void removeNameLabel() {
+        ui.getChildren().remove(nameInputLabel);
+        ui.getChildren().remove(playerNameField);
+        ui.getChildren().remove(enterNameButton);
+        ui.getChildren().remove(closeButton);
+    }
+
+
+
+
+    private void enemyMove() {
         for (Actor actor : map.getEnemies()) {
             actor.move();
         }
@@ -122,7 +193,7 @@ public class Main extends Application {
 //        refresh();
 //    }
 
-    public  int getCurrentLevel(){
+    public int getCurrentLevel() {
         return currentLevel;
     }
 
@@ -131,12 +202,11 @@ public class Main extends Application {
     }
 
 
-
     private void onKeyPressed(KeyEvent keyEvent) {
         switch (keyEvent.getCode()) {
-            case UP,W:
+            case UP, W:
 
-                if (player.getInventory().getKeyInInventory() && map.getCell(player.getX(), player.getY()).getNeighbor(0, -1).getType() == CellType.DOOR){
+                if (player.getInventory().getKeyInInventory() && map.getCell(player.getX(), player.getY()).getNeighbor(0, -1).getType() == CellType.DOOR) {
 
                     currentLevel++;
                     this.map = MapLoader.loadMap(currentLevel);
@@ -149,9 +219,9 @@ public class Main extends Application {
                 refresh();
 
                 break;
-            case DOWN,S:
+            case DOWN, S:
 
-                if (player.getInventory().getKeyInInventory() && map.getCell(player.getX(), player.getY()).getNeighbor(0, 1).getType() == CellType.DOOR){
+                if (player.getInventory().getKeyInInventory() && map.getCell(player.getX(), player.getY()).getNeighbor(0, 1).getType() == CellType.DOOR) {
 
                     currentLevel++;
                     this.map = MapLoader.loadMap(currentLevel);
@@ -164,9 +234,9 @@ public class Main extends Application {
                 enemyMove();
                 refresh();
                 break;
-            case LEFT,A:
+            case LEFT, A:
 
-                if (player.getInventory().getKeyInInventory() && map.getCell(player.getX(), player.getY()).getNeighbor(-1, 0).getType() == CellType.DOOR){
+                if (player.getInventory().getKeyInInventory() && map.getCell(player.getX(), player.getY()).getNeighbor(-1, 0).getType() == CellType.DOOR) {
 
                     currentLevel++;
                     this.map = MapLoader.loadMap(currentLevel);
@@ -179,9 +249,9 @@ public class Main extends Application {
                 enemyMove();
                 refresh();
                 break;
-            case RIGHT,D:
+            case RIGHT, D:
 
-                if (player.getInventory().getKeyInInventory() && map.getCell(player.getX(), player.getY()).getNeighbor(1, 0).getType() == CellType.DOOR){
+                if (player.getInventory().getKeyInInventory() && map.getCell(player.getX(), player.getY()).getNeighbor(1, 0).getType() == CellType.DOOR) {
 
                     currentLevel++;
                     this.map = MapLoader.loadMap(currentLevel);
@@ -202,6 +272,8 @@ public class Main extends Application {
         }
     }
 
+
+
     private void setupDbManager() {
         dbManager = new GameDatabaseManager();
         try {
@@ -210,6 +282,7 @@ public class Main extends Application {
             System.out.println("Cannot connect to database.");
         }
     }
+
     private void refresh() {
 
         if (map.getPlayer().isDead()) {
