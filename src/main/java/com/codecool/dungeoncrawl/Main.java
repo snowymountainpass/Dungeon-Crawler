@@ -28,15 +28,21 @@ import java.util.Locale;
 public class Main extends Application {
     int currentLevel = 1;
 
+    private final int mapWidth = 30;
+    private final int mapHeight = 20;
+
     private boolean gameLoaded = false;
 
     GridPane ui = new GridPane();
 
 
     GameMap map = MapLoader.loadMap(currentLevel);
+//    Canvas canvas = new Canvas(
+//            map.getWidth() * Tiles.TILE_WIDTH,
+//            map.getHeight() * Tiles.TILE_WIDTH);
     Canvas canvas = new Canvas(
-            map.getWidth() * Tiles.TILE_WIDTH,
-            map.getHeight() * Tiles.TILE_WIDTH);
+            mapWidth * Tiles.TILE_WIDTH,
+            mapHeight * Tiles.TILE_WIDTH);
     GraphicsContext context = canvas.getGraphicsContext2D();
     Label healthLabel = new Label();
     Label strengthLabel = new Label();
@@ -179,8 +185,6 @@ public class Main extends Application {
     }
 
 
-
-
     private void enemyMove() {
         for (Actor actor : map.getEnemies()) {
             actor.move();
@@ -285,7 +289,6 @@ public class Main extends Application {
         player.setStrength(passStrength);
         player.setInventory(passInventory);
         player.setCell(map.getCell(player.getX(), player.getY()));
-        System.out.println(player.getX() + "   " + player.getY());
         map.setPlayer(player);
         refresh();
         return;
@@ -302,7 +305,6 @@ public class Main extends Application {
     }
 
     private void refresh() {
-
         if (map.getPlayer().isDead()) {
             System.out.println("Player has died");
             map.getPlayer().getCell().setType(CellType.FLOOR);
@@ -311,24 +313,47 @@ public class Main extends Application {
             context.fillText("You have died !", 250, 250);
 
         } else {
+
             context.setFill(Color.BLACK);
+            int shiftX = 0;
+            int shiftY = 0;
+
+            if (map.getWidth() > 10) {
+                if (map.getPlayer().getX() >= 10) {
+                    shiftX = map.getPlayer().getX() - 10;
+                }
+                if (map.getPlayer().getY() >= 5) {
+                    shiftY = map.getPlayer().getY() - 5;
+                }
+
+                if (map.getPlayer().getX() >= map.getWidth() - 5) {
+                    shiftX = map.getWidth() - 20;
+                }
+                if (map.getPlayer().getY() >= map.getHeight() - 5) {
+                    shiftY = map.getHeight() - 15;
+                }
+            }
             context.fillRect(0, 0, canvas.getWidth(), canvas.getHeight());
             for (int x = 0; x < map.getWidth(); x++) {
+                int relativeX = x-shiftX;
                 for (int y = 0; y < map.getHeight(); y++) {
+                    int relativeY = y-shiftY;
                     Cell cell = map.getCell(x, y);
                     if (cell.getActor() != null) {
 
-                        Tiles.drawTile(context, cell.getActor(), x, y);
+//                        Tiles.drawTile(context, cell.getActor(), x, y);
+                        Tiles.drawTile(context, cell.getActor(), relativeX, relativeY);
 
                     } else if (cell.getItem() != null) {
-                        Tiles.drawTile(context, cell.getItem(), x, y);
+//                        Tiles.drawTile(context, cell.getItem(), x, y);
+                        Tiles.drawTile(context, cell.getItem(), relativeX, relativeY);
                     } else {
-                        Tiles.drawTile(context, cell, x, y);
+//                        Tiles.drawTile(context, cell, x, y);
+                        Tiles.drawTile(context, cell, relativeX, relativeY);
                     }
                 }
             }
             healthLabel.setText("" + map.getPlayer().getHealth());
-//            System.out.println(map.getPlayer().getHealth());
             strengthLabel.setText("" + map.getPlayer().getStrength());
             armorLabel.setText("" + map.getPlayer().getArmor());
             keyLabel.setText("" + map.getPlayer().getInventory().getKeyInInventory());
