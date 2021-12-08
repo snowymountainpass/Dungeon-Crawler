@@ -25,6 +25,10 @@ public class Inventory {
         return keyInInventory;
     }
 
+    public void setKey(boolean value) {
+        this.keyInInventory = value;
+    }
+
     @Override
     public String toString() {
         String inventoryAsString="";

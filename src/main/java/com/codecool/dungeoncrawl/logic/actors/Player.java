@@ -8,6 +8,7 @@ import com.codecool.dungeoncrawl.logic.CellType;
 import com.codecool.dungeoncrawl.logic.items.StrengthPotion;
 
 import java.util.ArrayList;
+import java.util.List;
 
 
 public class Player extends Actor {
@@ -34,6 +35,10 @@ public class Player extends Actor {
         return inventory;
     }
 
+    public void setInventory(Inventory inventory) {
+        this.inventory = inventory;
+    }
+
 
     public void setName(String name) {
         this.name = name;
@@ -46,7 +51,10 @@ public class Player extends Actor {
     @Override
     public void move(int dx, int dy) {
         Cell nextCell = getCell().getNeighbor(dx, dy);
-        if ((nextCell.getType()== CellType.FLOOR || nextCell.getType()== CellType.FLOOR_FANCY || nextCell.getType() == CellType.SECRET_WALL) && nextCell.getActor() == null) {
+        if ((nextCell.getType()== CellType.FLOOR ||
+                nextCell.getType()== CellType.FLOOR_FANCY ||
+                nextCell.getType() == CellType.SECRET_WALL ||
+                nextCell.getType() == CellType.WATERFALL) && nextCell.getActor() == null) {
             if (nextCell.getItem()!=null) {
                 switch (nextCell.getItem().getTileName()){
                     case "key":
@@ -81,7 +89,10 @@ public class Player extends Actor {
             getCell().setActor(null);
             nextCell.setActor(this);
             setCell(nextCell);
-        } else if ((nextCell.getType()== CellType.FLOOR || nextCell.getType()== CellType.FLOOR_FANCY || nextCell.getType() == CellType.SECRET_WALL) && nextCell.getActor() != null){
+        } else if ((nextCell.getType()== CellType.FLOOR ||
+                nextCell.getType()== CellType.FLOOR_FANCY ||
+                nextCell.getType() == CellType.SECRET_WALL ||
+                nextCell.getType() == CellType.WATERFALL) && nextCell.getActor() != null){
             Actor target = nextCell.getActor();
             while(target.getHealth() > 0) {
                 fight(dx, dy, getCell());

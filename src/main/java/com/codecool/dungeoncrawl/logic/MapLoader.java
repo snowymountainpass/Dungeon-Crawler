@@ -45,6 +45,12 @@ public class MapLoader {
                         case ',':
                             cell.setType(CellType.FLOOR_FANCY); // iarba - trece peste
                             break;
+                        case 'w':
+                            cell.setType(CellType.WATER);
+                            break;
+                        case 'W':
+                            cell.setType(CellType.WATERFALL);
+                            break;
                         case 't':
                             cell.setType(CellType.TORCH);
                             break;
@@ -56,12 +62,8 @@ public class MapLoader {
                             break;
                         case '@':
                             cell.setType(CellType.FLOOR);
-                            if(level==1){
+                            if (level == 1) {
                                 map.setPlayer(new Player(cell));
-                            }
-                            else {
-//                                map.setPlayer(new );
-
                             }
                             break;
                         case '{':
