@@ -5,15 +5,27 @@ import java.sql.Date;
 import java.util.List;
 
 public class GameState extends BaseModel {
-    private Date savedAt;
+    private int gameId;
     private String currentMap;
-    private List<String> discoveredMaps = new ArrayList<>();
+    private String otherMap;
+    private Date savedAt;
     private PlayerModel player;
+    private String saveName;
 
-    public GameState(String currentMap, Date savedAt, PlayerModel player) {
+    public GameState(String currentMap, String otherMap, Date savedAt, PlayerModel player, String saveName) {
         this.currentMap = currentMap;
+        this.otherMap = otherMap;
         this.savedAt = savedAt;
         this.player = player;
+        this.saveName = saveName;
+    }
+
+
+
+
+    public GameState(int gameId, String saveName) {
+        this.gameId = gameId;
+        this.saveName = saveName;
     }
 
     public Date getSavedAt() {
@@ -32,12 +44,12 @@ public class GameState extends BaseModel {
         this.currentMap = currentMap;
     }
 
-    public List<String> getDiscoveredMaps() {
-        return discoveredMaps;
+    public String getOtherMap() {
+        return otherMap;
     }
 
-    public void addDiscoveredMap(String map) {
-        this.discoveredMaps.add(map);
+    public void setOtherMap(String otherMap) {
+        this.otherMap = otherMap;
     }
 
     public PlayerModel getPlayer() {
@@ -46,5 +58,22 @@ public class GameState extends BaseModel {
 
     public void setPlayer(PlayerModel player) {
         this.player = player;
+    }
+
+    public String getSaveName() {
+        return saveName;
+    }
+
+    public void setSaveName(String saveName) {
+        this.saveName = saveName;
+    }
+
+    @Override
+    public String toString() {
+        return "gameId: " + this.gameId + " saveName: " + this.saveName;
+    }
+
+    public int getGameId() {
+        return gameId;
     }
 }

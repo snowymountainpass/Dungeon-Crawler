@@ -16,8 +16,8 @@ import java.sql.Date;
 public class ModalHandler {
     private int gameId;
 
-    public void saveGameModal(GameDatabaseManager dbManager, Player player) {
-        TextField nameInput = new TextField("Name");
+    public void saveGameModal(GameDatabaseManager dbManager,String currentMap,String otherMap, Player player) {
+        TextField nameInput = new TextField("test");
         Button save = new Button("Save");
         Button cancel = new Button("Cancel");
         VBox layout = new VBox(2);
@@ -30,7 +30,7 @@ public class ModalHandler {
         saveStage.show();
         String saveName = nameInput.getText();
         save.setOnAction(event -> {
-            dbManager.saveGame(player);
+            dbManager.saveGame(currentMap, otherMap, new Date(System.currentTimeMillis()), saveName, player);
             saveStage.close();
         });
         cancel.setOnAction(event -> saveStage.close());

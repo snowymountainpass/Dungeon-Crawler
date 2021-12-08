@@ -8,17 +8,21 @@ import org.postgresql.ds.PGSimpleDataSource;
 
 import javax.sql.DataSource;
 import java.sql.SQLException;
-import java.util.Date;
+import java.sql.*;
 
 public class GameDatabaseManager {
     private PlayerDao playerDao;
     private GameStateDao gameStateDao;
+    private String GameName = "GameName";
+    private PlayerModel playerModel;
+    private DataSource dataSource;
+    private GameState gameState;
 
 
     public void setup() throws SQLException {
         DataSource dataSource = connect();
         playerDao = new PlayerDaoJdbc(dataSource);
-//        gameStateDao = new GameStateDaoJdbc(dataSource, playerDao);
+        gameStateDao = new GameStateDaoJdbc(dataSource, playerDao);
     }
 
     public void savePlayer(Player player) {
@@ -43,8 +47,10 @@ public class GameDatabaseManager {
         return dataSource;
     }
 
-    public void saveGame( Player player) {
+    public void saveGame(String currentMap, String otherMap, Date savedAt, String saveName, Player player) {
         savePlayer(player);
-        ;
+        PlayerModel model = new PlayerModel(player);
+        GameState gameState = new GameState(currentMap, otherMap,  savedAt, model, saveName);
+        gameStateDao.add(gameState);
     }
 }

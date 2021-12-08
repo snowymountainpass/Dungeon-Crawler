@@ -21,15 +21,11 @@ import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
 import java.sql.SQLException;
-import java.util.List;
 import java.util.Locale;
 
 
 public class Main extends Application {
     int currentLevel = 1;
-
-    private final int mapWidth = 30;
-    private final int mapHeight = 20;
 
     private boolean gameLoaded = false;
 
@@ -37,12 +33,9 @@ public class Main extends Application {
 
 
     GameMap map = MapLoader.loadMap(currentLevel);
-//    Canvas canvas = new Canvas(
-//            map.getWidth() * Tiles.TILE_WIDTH,
-//            map.getHeight() * Tiles.TILE_WIDTH);
     Canvas canvas = new Canvas(
-            mapWidth * Tiles.TILE_WIDTH,
-            mapHeight * Tiles.TILE_WIDTH);
+            map.getWidth() * Tiles.TILE_WIDTH,
+            map.getHeight() * Tiles.TILE_WIDTH);
     GraphicsContext context = canvas.getGraphicsContext2D();
     Label healthLabel = new Label();
     Label strengthLabel = new Label();
@@ -62,7 +55,8 @@ public class Main extends Application {
     Button enterNameButton = new Button("Enter");
     Label nameInputLabel = new Label("Enter your name: ");
     TextField playerNameField = new TextField();
-
+    GameMap map1 = MapLoader.loadMap(1);
+    GameMap map2 = MapLoader.loadMap(2);
 
     public static void main(String[] args) {
         launch(args);
@@ -104,7 +98,9 @@ public class Main extends Application {
             @Override
             public void handle(ActionEvent actionEvent) {
                 System.out.println("SAVE BUTTON CLICKED");
-                modal.saveGameModal(dbManager, player);
+                String currentMap = getCurrentMapAsString();
+                String otherMap = getOtherMapAsString();
+                modal.saveGameModal(dbManager, currentMap, otherMap, player);
             }
         });
         saveButton.setFocusTraversable(false);
@@ -185,6 +181,8 @@ public class Main extends Application {
     }
 
 
+
+
     private void enemyMove() {
         for (Actor actor : map.getEnemies()) {
             actor.move();
@@ -208,38 +206,33 @@ public class Main extends Application {
 
 
     private void onKeyPressed(KeyEvent keyEvent) {
-        int passHealth = map.getPlayer().getHealth();
-        int passArmor = map.getPlayer().getArmor();
-        int passStrength = map.getPlayer().getStrength();
-        Inventory passInventory = map.getPlayer().getInventory();
-
-
         switch (keyEvent.getCode()) {
             case UP, W:
 
                 if (player.getInventory().getKeyInInventory() && map.getCell(player.getX(), player.getY()).getNeighbor(0, -1).getType() == CellType.DOOR) {
 
-                    passDoor(passHealth, passArmor, passStrength, passInventory);
+                    currentLevel++;
+                    this.map = MapLoader.loadMap(currentLevel);
                     refresh();
                     break;
 
                 }
-                refresh();
                 map.getPlayer().move(0, -1);
                 enemyMove();
                 refresh();
 
                 break;
-            case DOWN, S:
+            case DOWN:
 
                 if (player.getInventory().getKeyInInventory() && map.getCell(player.getX(), player.getY()).getNeighbor(0, 1).getType() == CellType.DOOR) {
 
-                    passDoor(passHealth, passArmor, passStrength, passInventory);
+                    currentLevel++;
+                    this.map = MapLoader.loadMap(currentLevel);
                     refresh();
                     break;
 
                 }
-                refresh();
+
                 map.getPlayer().move(0, 1);
                 enemyMove();
                 refresh();
@@ -248,12 +241,13 @@ public class Main extends Application {
 
                 if (player.getInventory().getKeyInInventory() && map.getCell(player.getX(), player.getY()).getNeighbor(-1, 0).getType() == CellType.DOOR) {
 
-                    passDoor(passHealth, passArmor, passStrength, passInventory);
+                    currentLevel++;
+                    this.map = MapLoader.loadMap(currentLevel);
                     refresh();
                     break;
 
                 }
-                refresh();
+
                 map.getPlayer().move(-1, 0);
                 enemyMove();
                 refresh();
@@ -262,37 +256,29 @@ public class Main extends Application {
 
                 if (player.getInventory().getKeyInInventory() && map.getCell(player.getX(), player.getY()).getNeighbor(1, 0).getType() == CellType.DOOR) {
 
-                    passDoor(passHealth, passArmor, passStrength, passInventory);
+                    currentLevel++;
+                    this.map = MapLoader.loadMap(currentLevel);
                     refresh();
                     break;
 
                 }
-                refresh();
+
                 map.getPlayer().move(1, 0);
                 enemyMove();
                 refresh();
                 break;
-//            case S:
-//                if (keyEvent.isControlDown()) {
-//                    modal.saveGameModal(dbManager, player);
-//                }
-//                break;
+            case S:
+                if (keyEvent.isControlDown()) {
+                    String currentMap = getCurrentMapAsString();
+                    String otherMap = getOtherMapAsString();
+                    System.out.println(currentMap);
+                    System.out.println(otherMap);
+                modal.saveGameModal(dbManager, currentMap, otherMap, player);
+                }
+                break;
         }
     }
 
-    private void passDoor(int passHealth, int passArmor, int passStrength, Inventory passInventory) {
-        currentLevel++;
-        player.getInventory().setKeyInInventory(false);
-        this.map = MapLoader.loadMap(currentLevel);
-        player.setHealth(passHealth);
-        player.setArmor(passArmor);
-        player.setStrength(passStrength);
-        player.setInventory(passInventory);
-        player.setCell(map.getCell(player.getX(), player.getY()));
-        map.setPlayer(player);
-        refresh();
-        return;
-    }
 
 
     private void setupDbManager() {
@@ -304,8 +290,15 @@ public class Main extends Application {
         }
     }
 
-    private void refresh() {
+    private String getCurrentMapAsString() {
+        return MapSaver.saveMap(map);
+    }
 
+    private String getOtherMapAsString() {
+        return (currentLevel == 1) ? MapSaver.saveMap(map2) : MapSaver.saveMap(map1);
+    }
+
+    private void refresh() {
 
         if (map.getPlayer().isDead()) {
             System.out.println("Player has died");
@@ -315,43 +308,20 @@ public class Main extends Application {
             context.fillText("You have died !", 250, 250);
 
         } else {
-
             context.setFill(Color.BLACK);
-            int shiftX = 0;
-            int shiftY = 0;
-
-            if (map.getWidth() > 10) {
-                if (map.getPlayer().getX() >= 10) {
-                    shiftX = map.getPlayer().getX() - 10;
-                }
-                if (map.getPlayer().getY() >= 5) {
-                    shiftY = map.getPlayer().getY() - 5;
-                }
-
-                if (map.getPlayer().getX() >= map.getWidth() - 5) {
-                    shiftX = map.getWidth() - 20;
-                }
-                if (map.getPlayer().getY() >= map.getHeight() - 5) {
-                    shiftY = map.getHeight() - 15;
-                }
-            }
             context.fillRect(0, 0, canvas.getWidth(), canvas.getHeight());
-            for (int x = 0; x < map.getWidth(); x++) {
-                int relativeX = x-shiftX;
-                for (int y = 0; y < map.getHeight(); y++) {
-                    int relativeY = y-shiftY;
-                    Cell cell = map.getCell(x, y);
-                    if (cell.getActor() != null && !cell.getActor().isDead()) {
 
-//                        Tiles.drawTile(context, cell.getActor(), x, y);
-                        Tiles.drawTile(context, cell.getActor(), relativeX, relativeY);
+            for (int x = 0; x < map.getWidth(); x++) {
+                for (int y = 0; y < map.getHeight(); y++) {
+                    Cell cell = map.getCell(x, y);
+                    if (cell.getActor() != null) {
+
+                        Tiles.drawTile(context, cell.getActor(), x, y);
 
                     } else if (cell.getItem() != null) {
-//                        Tiles.drawTile(context, cell.getItem(), x, y);
-                        Tiles.drawTile(context, cell.getItem(), relativeX, relativeY);
+                        Tiles.drawTile(context, cell.getItem(), x, y);
                     } else {
-//                        Tiles.drawTile(context, cell, x, y);
-                        Tiles.drawTile(context, cell, relativeX, relativeY);
+                        Tiles.drawTile(context, cell, x, y);
                     }
                 }
             }

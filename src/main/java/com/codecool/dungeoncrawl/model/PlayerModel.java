@@ -2,14 +2,18 @@ package com.codecool.dungeoncrawl.model;
 
 import com.codecool.dungeoncrawl.logic.actors.Player;
 
+import java.util.UUID;
+
 public class PlayerModel extends BaseModel {
     private String playerName;
     private int hp;
     private int x;
     private int y;
 
+
     public PlayerModel() {
         super();
+
     }
 
     public PlayerModel(String playerName, int hp, int x, int y) {
@@ -17,6 +21,7 @@ public class PlayerModel extends BaseModel {
         this.x = x;
         this.y = y;
         this.hp = hp;
+
     }
 
     public PlayerModel(Player player) {
