@@ -3,7 +3,6 @@ package com.codecool.dungeoncrawl.logic;
 import com.codecool.dungeoncrawl.dao.PlayerDaoJdbc;
 import com.codecool.dungeoncrawl.logic.actors.*;
 import com.codecool.dungeoncrawl.logic.items.*;
-import com.codecool.dungeoncrawl.model.GameState;
 
 import java.io.InputStream;
 import java.util.Scanner;
