@@ -32,7 +32,7 @@ public class Main extends Application {
     int currentLevel = 1;
 
     private final int mapWidth = 30;
-    private final int mapHeight = 20;
+    private final int mapHeight = 25;
 
     private boolean gameLoaded = false;
 
@@ -330,15 +330,15 @@ public class Main extends Application {
                 if (map.getPlayer().getX() >= 10) {
                     shiftX = map.getPlayer().getX() - 10;
                 }
-                if (map.getPlayer().getY() >= 5) {
-                    shiftY = map.getPlayer().getY() - 5;
+                if (map.getPlayer().getY() >= 15) {
+                    shiftY = map.getPlayer().getY() - 15;
                 }
 
                 if (map.getPlayer().getX() >= map.getWidth() - 5) {
                     shiftX = map.getWidth() - 20;
                 }
-                if (map.getPlayer().getY() >= map.getHeight() - 5) {
-                    shiftY = map.getHeight() - 15;
+                if (map.getPlayer().getY() >= map.getHeight() - 13) {
+                    shiftY = map.getHeight() - 25;
                 }
             }
             context.fillRect(0, 0, canvas.getWidth(), canvas.getHeight());
