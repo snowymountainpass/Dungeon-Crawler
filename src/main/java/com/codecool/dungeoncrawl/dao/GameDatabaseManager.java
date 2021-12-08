@@ -19,7 +19,7 @@ public class GameDatabaseManager {
     public void setup() throws SQLException {
         DataSource dataSource = connect();
         playerDao = new PlayerDaoJdbc(dataSource);
-//        gameStateDao = new GameStateDaoJdbc(dataSource, playerDao);
+        gameStateDao = new GameStateDaoJdbc(dataSource);
     }
 
     public void savePlayer(Player player) {
@@ -27,7 +27,9 @@ public class GameDatabaseManager {
         playerDao.add(model);
     }
     public void saveGameState(Player player,GameState gameState){
-        GameState model = new GameState(gameState.getCurrentMap(),gameState.getSavedAt(),gameState.getPlayer());
+        PlayerModel modelPlayer = new PlayerModel(player);
+        modelPlayer.setId(1);
+        GameState model = new GameState(gameState.getCurrentMap(),gameState.getSavedAt(),modelPlayer);
         gameStateDao.add(model);
     }
 

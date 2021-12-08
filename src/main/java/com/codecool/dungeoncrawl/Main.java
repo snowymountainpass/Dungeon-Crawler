@@ -25,6 +25,7 @@ import java.sql.SQLException;
 import java.sql.Time;
 import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
 
 
@@ -43,8 +44,9 @@ public class Main extends Application {
     GameDatabaseManager dbManager;
     ModalHandler modal = new ModalHandler();
     Player player = map.getPlayer();
-    private Date date;
-    GameState state = new GameState("map1.txt",new Timestamp(System.currentTimeMillis()),state.getPlayer().getId());
+    private java.sql.Date date = new java.sql.Date(Calendar.getInstance().getTime().getTime());
+    PlayerModel playerModel = new PlayerModel("Player1",100,6,15);
+    GameState state = new GameState("map1.txt",date,playerModel);
 
     Button saveButton = new Button("Save Game");
     Button loadButton = new Button("Load Game");
