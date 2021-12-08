@@ -11,7 +11,6 @@ import java.util.Scanner;
 public class MapLoader {
     public static GameMap loadMap(int level) {
 
-//        InputStream is = MapLoader.class.getResourceAsStream("/map1.txt");
         InputStream is = MapLoader.class.getResourceAsStream("/map"+level+".txt");
         Scanner scanner = new Scanner(is);
         int width = scanner.nextInt();
@@ -26,7 +25,6 @@ public class MapLoader {
                 if (x < line.length()) {
                     Cell cell = map.getCell(x, y);
                     switch (line.charAt(x)) {
-
                         case ' ':
                             cell.setType(CellType.EMPTY);
                             break;
@@ -37,13 +35,13 @@ public class MapLoader {
                             cell.setType(CellType.SECRET_WALL);
                             break;
                         case ';':
-                            cell.setType(CellType.VINE); //nu trece peste
+                            cell.setType(CellType.VINE);
                             break;
                         case '.':
                             cell.setType(CellType.FLOOR);
                             break;
                         case ',':
-                            cell.setType(CellType.FLOOR_FANCY); // iarba - trece peste
+                            cell.setType(CellType.FLOOR_FANCY);
                             break;
                         case 'w':
                             cell.setType(CellType.WATER);

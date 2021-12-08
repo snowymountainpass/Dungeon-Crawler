@@ -55,9 +55,9 @@ public class Main extends Application {
     GameDatabaseManager dbManager;
     ModalHandler modal = new ModalHandler();
     Player player = map.getPlayer();
-    private java.sql.Date date = new java.sql.Date(Calendar.getInstance().getTime().getTime());
-    PlayerModel playerModel = new PlayerModel("Player1",100,6,15);
-    GameState state = new GameState("map1.txt",date,playerModel);
+//    private java.sql.Date date = new java.sql.Date(Calendar.getInstance().getTime().getTime());
+//    PlayerModel playerModel = new PlayerModel("Player1",100,6,15);
+//    GameState state = new GameState("map1.txt",date,playerModel);
 
     Label currentPlayer = new Label("Player");
 
@@ -110,7 +110,7 @@ public class Main extends Application {
             @Override
             public void handle(ActionEvent actionEvent) {
                 System.out.println("SAVE BUTTON CLICKED");
-                modal.saveGameModal(dbManager, player,state);
+//                modal.saveGameModal(dbManager, player,state);
             }
         });
         saveButton.setFocusTraversable(false);
