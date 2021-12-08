@@ -8,6 +8,7 @@ import com.codecool.dungeoncrawl.logic.CellType;
 import com.codecool.dungeoncrawl.logic.items.StrengthPotion;
 
 import java.util.ArrayList;
+import java.util.List;
 
 
 public class Player extends Actor {
@@ -32,6 +33,10 @@ public class Player extends Actor {
 
     public Inventory getInventory() {
         return inventory;
+    }
+
+    public void setInventory(Inventory inventory) {
+        this.inventory = inventory;
     }
 
 

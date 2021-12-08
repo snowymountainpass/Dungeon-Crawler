@@ -21,6 +21,7 @@ import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
 import java.sql.SQLException;
+import java.util.List;
 import java.util.Locale;
 
 
@@ -203,14 +204,18 @@ public class Main extends Application {
 
 
     private void onKeyPressed(KeyEvent keyEvent) {
+        int passHealth = map.getPlayer().getHealth();
+        int passArmor = map.getPlayer().getArmor();
+        int passStrength = map.getPlayer().getStrength();
+        Inventory passInventory = map.getPlayer().getInventory();
+
+
         switch (keyEvent.getCode()) {
             case UP, W:
 
                 if (player.getInventory().getKeyInInventory() && map.getCell(player.getX(), player.getY()).getNeighbor(0, -1).getType() == CellType.DOOR) {
 
-                    currentLevel++;
-                    this.map = MapLoader.loadMap(currentLevel);
-                    refresh();
+                    passDoor(passHealth, passArmor, passStrength, passInventory);
                     break;
 
                 }
@@ -223,9 +228,7 @@ public class Main extends Application {
 
                 if (player.getInventory().getKeyInInventory() && map.getCell(player.getX(), player.getY()).getNeighbor(0, 1).getType() == CellType.DOOR) {
 
-                    currentLevel++;
-                    this.map = MapLoader.loadMap(currentLevel);
-                    refresh();
+                    passDoor(passHealth, passArmor, passStrength, passInventory);
                     break;
 
                 }
@@ -238,9 +241,7 @@ public class Main extends Application {
 
                 if (player.getInventory().getKeyInInventory() && map.getCell(player.getX(), player.getY()).getNeighbor(-1, 0).getType() == CellType.DOOR) {
 
-                    currentLevel++;
-                    this.map = MapLoader.loadMap(currentLevel);
-                    refresh();
+                    passDoor(passHealth, passArmor, passStrength, passInventory);
                     break;
 
                 }
@@ -253,9 +254,7 @@ public class Main extends Application {
 
                 if (player.getInventory().getKeyInInventory() && map.getCell(player.getX(), player.getY()).getNeighbor(1, 0).getType() == CellType.DOOR) {
 
-                    currentLevel++;
-                    this.map = MapLoader.loadMap(currentLevel);
-                    refresh();
+                    passDoor(passHealth, passArmor, passStrength, passInventory);
                     break;
 
                 }
@@ -272,6 +271,19 @@ public class Main extends Application {
         }
     }
 
+    private void passDoor(int passHealth, int passArmor, int passStrength, Inventory passInventory) {
+        currentLevel++;
+        player.getInventory().setKeyInInventory(false);
+        this.map = MapLoader.loadMap(currentLevel);
+        player.setHealth(passHealth);
+        player.setArmor(passArmor);
+        player.setStrength(passStrength);
+        player.setInventory(passInventory);
+        player.setCell(map.getCell(player.getX(), player.getY()));
+        map.setPlayer(player);
+        refresh();
+        return;
+    }
 
 
     private void setupDbManager() {
@@ -310,6 +322,7 @@ public class Main extends Application {
                 }
             }
             healthLabel.setText("" + map.getPlayer().getHealth());
+//            System.out.println(map.getPlayer().getHealth());
             strengthLabel.setText("" + map.getPlayer().getStrength());
             armorLabel.setText("" + map.getPlayer().getArmor());
             keyLabel.setText("" + map.getPlayer().getInventory().getKeyInInventory());
