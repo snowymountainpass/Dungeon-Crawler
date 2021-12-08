@@ -216,9 +216,11 @@ public class Main extends Application {
                 if (player.getInventory().getKeyInInventory() && map.getCell(player.getX(), player.getY()).getNeighbor(0, -1).getType() == CellType.DOOR) {
 
                     passDoor(passHealth, passArmor, passStrength, passInventory);
+                    refresh();
                     break;
 
                 }
+                refresh();
                 map.getPlayer().move(0, -1);
                 enemyMove();
                 refresh();
@@ -229,10 +231,11 @@ public class Main extends Application {
                 if (player.getInventory().getKeyInInventory() && map.getCell(player.getX(), player.getY()).getNeighbor(0, 1).getType() == CellType.DOOR) {
 
                     passDoor(passHealth, passArmor, passStrength, passInventory);
+                    refresh();
                     break;
 
                 }
-
+                refresh();
                 map.getPlayer().move(0, 1);
                 enemyMove();
                 refresh();
@@ -242,10 +245,11 @@ public class Main extends Application {
                 if (player.getInventory().getKeyInInventory() && map.getCell(player.getX(), player.getY()).getNeighbor(-1, 0).getType() == CellType.DOOR) {
 
                     passDoor(passHealth, passArmor, passStrength, passInventory);
+                    refresh();
                     break;
 
                 }
-
+                refresh();
                 map.getPlayer().move(-1, 0);
                 enemyMove();
                 refresh();
@@ -255,10 +259,11 @@ public class Main extends Application {
                 if (player.getInventory().getKeyInInventory() && map.getCell(player.getX(), player.getY()).getNeighbor(1, 0).getType() == CellType.DOOR) {
 
                     passDoor(passHealth, passArmor, passStrength, passInventory);
+                    refresh();
                     break;
 
                 }
-
+                refresh();
                 map.getPlayer().move(1, 0);
                 enemyMove();
                 refresh();
@@ -280,6 +285,7 @@ public class Main extends Application {
         player.setStrength(passStrength);
         player.setInventory(passInventory);
         player.setCell(map.getCell(player.getX(), player.getY()));
+        System.out.println(player.getX() + "   " + player.getY());
         map.setPlayer(player);
         refresh();
         return;
