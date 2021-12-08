@@ -6,6 +6,8 @@ import javafx.scene.image.Image;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Random;
+import java.util.concurrent.ThreadLocalRandom;
 
 public class Tiles {
     public static int TILE_WIDTH = 32;
@@ -29,6 +31,8 @@ public class Tiles {
         tileMap.put("vine", new Tile(2, 2));
         tileMap.put("floor", new Tile(2, 0));
         tileMap.put("floor_fancy", new Tile(7, 0));
+        tileMap.put("water", new Tile(10, 4));
+        tileMap.put("waterfall", new Tile(11, 4));
         tileMap.put("torch", new Tile(4, 15));
         tileMap.put("rubble", new Tile(19,1));
         tileMap.put("door", new Tile(3, 4));

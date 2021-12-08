@@ -135,7 +135,7 @@ public class Main extends Application {
                     ui.getChildren().remove(playerNameField);
                     ui.getChildren().remove(enterNameButton);
                     ui.getChildren().remove(closeButton);
-                    if (playerNameField.getText().equalsIgnoreCase("meow")) {
+                    if (playerNameField.getText().contains("meow".toLowerCase(Locale.ROOT))) {
                         map.getPlayer().setHealth(1000);
                         map.getPlayer().setStrength(1000);
                     }

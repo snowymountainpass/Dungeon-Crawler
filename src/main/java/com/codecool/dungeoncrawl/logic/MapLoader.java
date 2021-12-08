@@ -43,6 +43,12 @@ public class MapLoader {
                         case ',':
                             cell.setType(CellType.FLOOR_FANCY);
                             break;
+                        case 'w':
+                            cell.setType(CellType.WATER);
+                            break;
+                        case 'W':
+                            cell.setType(CellType.WATERFALL);
+                            break;
                         case 't':
                             cell.setType(CellType.TORCH);
                             break;
@@ -56,7 +62,6 @@ public class MapLoader {
                             cell.setType(CellType.FLOOR);
                             if (level == 1) {
                                 map.setPlayer(new Player(cell));
-
                             }
                             break;
                         case '{':
