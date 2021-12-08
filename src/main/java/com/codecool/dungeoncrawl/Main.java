@@ -305,6 +305,8 @@ public class Main extends Application {
     }
 
     private void refresh() {
+
+
         if (map.getPlayer().isDead()) {
             System.out.println("Player has died");
             map.getPlayer().getCell().setType(CellType.FLOOR);
@@ -339,7 +341,7 @@ public class Main extends Application {
                 for (int y = 0; y < map.getHeight(); y++) {
                     int relativeY = y-shiftY;
                     Cell cell = map.getCell(x, y);
-                    if (cell.getActor() != null) {
+                    if (cell.getActor() != null && !cell.getActor().isDead()) {
 
 //                        Tiles.drawTile(context, cell.getActor(), x, y);
                         Tiles.drawTile(context, cell.getActor(), relativeX, relativeY);
