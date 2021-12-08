@@ -37,13 +37,13 @@ public class MapLoader {
                             cell.setType(CellType.SECRET_WALL);
                             break;
                         case ';':
-                            cell.setType(CellType.VINE);
+                            cell.setType(CellType.VINE); //nu trece peste
                             break;
                         case '.':
                             cell.setType(CellType.FLOOR);
                             break;
                         case ',':
-                            cell.setType(CellType.FLOOR_FANCY);
+                            cell.setType(CellType.FLOOR_FANCY); // iarba - trece peste
                             break;
                         case 't':
                             cell.setType(CellType.TORCH);
