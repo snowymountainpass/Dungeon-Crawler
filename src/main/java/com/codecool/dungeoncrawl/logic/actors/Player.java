@@ -107,7 +107,15 @@ public class Player extends Actor {
         return inventoryContains;
     }
 
+    @Override
+    public int getStrength() {
+        return super.getStrength();
+    }
 
+    @Override
+    public int getArmor() {
+        return super.getArmor();
+    }
 
     public String getTileName() {
 

@@ -5,7 +5,7 @@ CREATE TABLE public.game_state
     current_map text                                                  NOT NULL,
     other_map   text                                                  NOT NULL,
     saved_at    timestamp without time zone DEFAULT CURRENT_TIMESTAMP NOT NULL,
-    player_id   serial                                                NOT NULL,
+    player_id   serial                                               NOT NULL,
     save_name   text                                                  NOT NULL
 );
 
