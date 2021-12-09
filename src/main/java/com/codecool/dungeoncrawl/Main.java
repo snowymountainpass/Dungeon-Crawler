@@ -12,6 +12,7 @@ import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.control.ListView;
 import javafx.scene.control.TextField;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.BorderPane;
@@ -116,10 +117,14 @@ public class Main extends Application {
         loadButton.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent actionEvent) {
+
                 System.out.println("LOAD BUTTON CLICKED");
-                ArrayList<String> testingNames = new ArrayList<>();
-                testingNames = dbManager.getPlayerNames();
-                System.out.println(testingNames);
+                ArrayList<String> savedGames = new ArrayList<>();
+                savedGames = dbManager.getPlayerNames();
+                System.out.println(savedGames);
+                modal.loadGameModal(savedGames);
+
+
 
 
 
