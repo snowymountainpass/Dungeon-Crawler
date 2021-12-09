@@ -382,6 +382,7 @@ public class Main extends Application {
             armorLabel.setText("" + map.getPlayer().getArmor());
             keyLabel.setText("" + map.getPlayer().getInventory().getKeyInInventory());
             inventoryLabel.setText("" + map.getPlayer().showInventory());
+            currentPlayer.setText(""+map.getPlayer().getName());
         }
     }
 
@@ -413,7 +414,6 @@ public class Main extends Application {
 
     public void loadGameModal(GameDatabaseManager dbManager, ArrayList<String> savedGames) {
         VBox loadGamesLayout = new VBox();
-        AtomicReference<PlayerModel> returnValue = new AtomicReference<>();
 
         for (int i = 0; i < savedGames.size(); i++) {
             Button save = new Button(savedGames.get(i));
@@ -426,7 +426,13 @@ public class Main extends Application {
                     System.out.println(selectedSave);
                     loadedPlayer = dbManager.loadPlayer(selectedSave);
                     System.out.println(loadedPlayer);
-                    returnValue.set(loadedPlayer);
+                    player.setHealth(loadedPlayer.getHp());
+                    player.setX(loadedPlayer.getX());
+                    player.setY(loadedPlayer.getY());
+                    player.setStrength(loadedPlayer.getStrength());
+                    player.setArmor(loadedPlayer.getArmor());
+                    player.setName(save.getText());
+                    refresh();
                 }
             });
 
