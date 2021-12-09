@@ -76,9 +76,35 @@ public class PlayerDaoJdbc implements PlayerDao {
     }
 
     @Override
-    public List<PlayerModel> getAll() {
+    public ArrayList<String> getAll() {
 
-        //?
-        return null;
+        try (Connection connection = dataSource.getConnection()) {
+            String sql = "SELECT player_name FROM player";
+            PreparedStatement st = connection.prepareStatement(sql);
+
+            ResultSet resultSet = st.executeQuery();
+            if (!resultSet.next()) {
+                return null;
+            }
+
+            ArrayList<String> playerNames = new ArrayList<String>();
+
+
+            String firstEntry = resultSet.getString("player_name");
+            playerNames.add(firstEntry);
+            System.out.println("FIRST ENTRY IS " + firstEntry);
+            System.out.println("PLAYER NAMES CONTAINS " + playerNames);
+
+            
+            while (resultSet.next()) {
+                String name = new String(resultSet.getString("player_name"));
+                System.out.println("IN PLAYER DAO, NAME: " + name);
+                playerNames.add(name);
+            }
+            System.out.println(playerNames);
+            return playerNames;
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
     }
 }

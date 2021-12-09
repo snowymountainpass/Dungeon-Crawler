@@ -21,6 +21,7 @@ import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.Locale;
 
 
@@ -45,8 +46,11 @@ public class Main extends Application {
     Label armorLabel = new Label();
     Label keyLabel = new Label();
     Label inventoryLabel = new Label();
-    GameDatabaseManager dbManager;
+
+    GameDatabaseManager dbManager = new GameDatabaseManager();
+
     ModalHandler modal = new ModalHandler();
+
     Player player = map.getPlayer();
 
     Label currentPlayer = new Label("Player");
@@ -113,6 +117,12 @@ public class Main extends Application {
             @Override
             public void handle(ActionEvent actionEvent) {
                 System.out.println("LOAD BUTTON CLICKED");
+                ArrayList<String> testingNames = new ArrayList<>();
+                testingNames = dbManager.getPlayerNames();
+                System.out.println(testingNames);
+
+
+
             }
         });
         loadButton.setFocusTraversable(false);

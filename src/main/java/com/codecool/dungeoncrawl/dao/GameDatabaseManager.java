@@ -9,6 +9,7 @@ import org.postgresql.ds.PGSimpleDataSource;
 import javax.sql.DataSource;
 import java.sql.SQLException;
 import java.sql.*;
+import java.util.ArrayList;
 
 public class GameDatabaseManager {
     private PlayerDao playerDao;
@@ -52,5 +53,9 @@ public class GameDatabaseManager {
         PlayerModel model = new PlayerModel(player);
         GameState gameState = new GameState(currentMap, otherMap,  savedAt, model, saveName);
         gameStateDao.add(gameState);
+    }
+
+    public ArrayList<String> getPlayerNames() {
+        return playerDao.getAll();
     }
 }
