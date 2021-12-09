@@ -3,6 +3,7 @@ package com.codecool.dungeoncrawl;
 import com.codecool.dungeoncrawl.dao.GameDatabaseManager;
 import com.codecool.dungeoncrawl.logic.*;
 import com.codecool.dungeoncrawl.logic.actors.*;
+import com.codecool.dungeoncrawl.model.PlayerModel;
 import javafx.application.Application;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
@@ -122,7 +123,7 @@ public class Main extends Application {
                 ArrayList<String> savedGames = new ArrayList<>();
                 savedGames = dbManager.getPlayerNames();
                 System.out.println(savedGames);
-                modal.loadGameModal(savedGames);
+                modal.loadGameModal(dbManager, savedGames);
 
 
 

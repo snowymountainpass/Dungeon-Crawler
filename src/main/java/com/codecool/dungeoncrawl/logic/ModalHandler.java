@@ -4,6 +4,7 @@ import com.codecool.dungeoncrawl.dao.GameDatabaseManager;
 
 import com.codecool.dungeoncrawl.logic.actors.Player;
 
+import com.codecool.dungeoncrawl.model.PlayerModel;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
@@ -51,12 +52,22 @@ public class ModalHandler {
     }
 
     // int?
-    public void loadGameModal(ArrayList<String> savedGames) {
-        ListView listView = new ListView();
+    public PlayerModel loadGameModal(GameDatabaseManager dbManager, ArrayList<String> savedGames) {
         VBox loadGamesLayout = new VBox();
+
         for (int i = 0; i < savedGames.size(); i++) {
             Button save = new Button(savedGames.get(i));
             loadGamesLayout.getChildren().add(i, save);
+            save.setOnAction(new EventHandler<ActionEvent>() {
+                @Override
+                public void handle(ActionEvent actionEvent) {
+                    PlayerModel loadedPlayer;
+                    String selectedSave = save.getText();
+                    System.out.println(selectedSave);
+                    loadedPlayer = dbManager.loadPlayer(selectedSave);
+                    System.out.println(loadedPlayer);
+                }
+            });
 
         }
         Scene loadScene = new Scene(loadGamesLayout, 350, 350);
@@ -64,6 +75,12 @@ public class ModalHandler {
         loadStage.setTitle("Load Game");
         loadStage.setScene(loadScene);
         loadStage.show();
+
+        System.out.println("LOADED PLAYER BEFORE RETURN" + loadedPlayer);
+
+        return loadedPlayer;
+
+
     }
 }
 

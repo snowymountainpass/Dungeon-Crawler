@@ -31,6 +31,11 @@ public class GameDatabaseManager {
         playerDao.add(model);
     }
 
+    public PlayerModel loadPlayer(String playerName) {
+        PlayerModel player = playerDao.get(playerName);
+        return player;
+    }
+
     private DataSource connect() throws SQLException {
         PGSimpleDataSource dataSource = new PGSimpleDataSource();
 //        String dbName = "test";

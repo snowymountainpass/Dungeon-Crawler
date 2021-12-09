@@ -28,6 +28,14 @@ public class PlayerModel extends BaseModel {
         this.armor = armor;
 
     }
+    public PlayerModel(int hp, int x, int y, int strength, int armor) {
+        this.x = x;
+        this.y = y;
+        this.hp = hp;
+        this.strength = strength;
+        this.armor = armor;
+
+    }
 
     public PlayerModel(Player player) {
         this.playerName = player.getName();
