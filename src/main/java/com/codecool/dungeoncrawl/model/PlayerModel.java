@@ -9,6 +9,8 @@ public class PlayerModel extends BaseModel {
     private int hp;
     private int x;
     private int y;
+    private int strength;
+    private int armor;
 
 
     public PlayerModel() {
@@ -16,11 +18,14 @@ public class PlayerModel extends BaseModel {
 
     }
 
-    public PlayerModel(String playerName, int hp, int x, int y) {
+
+    public PlayerModel(String playerName, int hp, int x, int y, int strength, int armor) {
         this.playerName = playerName;
         this.x = x;
         this.y = y;
         this.hp = hp;
+        this.strength = strength;
+        this.armor = armor;
 
     }
 
@@ -30,9 +35,10 @@ public class PlayerModel extends BaseModel {
         this.y = player.getY();
 
         this.hp = player.getHealth();
+        this.strength = player.getStrength();
+        this.armor = player.getArmor();
 
     }
-
 
 
     public String getPlayerName() {
@@ -66,4 +72,22 @@ public class PlayerModel extends BaseModel {
     public void setY(int y) {
         this.y = y;
     }
+
+    public int getStrength() {
+        return strength;
+    }
+
+    public void setStrength(int strength) {
+        this.strength = strength;
+    }
+
+    public int getArmor() {
+        return armor;
+    }
+
+    public void setArmor(int armor) {
+        this.armor = armor;
+    }
+
+
 }

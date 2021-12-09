@@ -18,12 +18,14 @@ public class PlayerDaoJdbc implements PlayerDao {
     @Override
     public void add(PlayerModel player) {
         try (Connection connection = dataSource.getConnection()) {
-            String sql = "INSERT INTO player (player_name, hp, x, y) VALUES (?, ?, ?, ?)";
+            String sql = "INSERT INTO player (player_name, hp, x, y, strength, armor) VALUES (?, ?, ?, ?, ?, ?)";
             PreparedStatement statement = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
             statement.setString(1, player.getPlayerName());
             statement.setInt(2, player.getHp());
             statement.setInt(3, player.getX());
             statement.setInt(4, player.getY());
+            statement.setInt(5, player.getStrength());
+            statement.setInt(6, player.getArmor());
             statement.executeUpdate();
             ResultSet resultSet = statement.getGeneratedKeys();
             resultSet.next();
@@ -36,12 +38,14 @@ public class PlayerDaoJdbc implements PlayerDao {
     @Override
     public void update(PlayerModel player) throws SQLException {
         try (Connection connection = dataSource.getConnection()) {
-            String sql = "UPDATE player SET player_name = ?, hp= ?, x = ?, y = ? WHERE id = ?";
+            String sql = "UPDATE player SET player_name = ?, hp= ?, x = ?, y = ?, strength = ?, armor = ? WHERE id = ?";
             PreparedStatement st = connection.prepareStatement(sql);
             st.setString(1, player.getPlayerName());
             st.setInt(2, player.getHp());
             st.setInt(3, player.getX());
             st.setInt(4, player.getY());
+            st.setInt(5, player.getStrength());
+            st.setInt(6, player.getArmor());
 
             st.executeUpdate();
         } catch (SQLException e) {
@@ -54,7 +58,7 @@ public class PlayerDaoJdbc implements PlayerDao {
     public PlayerModel get(int id) {
 
         try (Connection connection = dataSource.getConnection()) {
-            String sql = "SELECT player_name, hp, x, y FROM player WHERE id = ?";
+            String sql = "SELECT player_name, hp, x, y, strength, armor FROM player WHERE id = ?";
             PreparedStatement st = connection.prepareStatement(sql);
             st.setInt(1, id);
             ResultSet rs = st.executeQuery();
@@ -63,7 +67,7 @@ public class PlayerDaoJdbc implements PlayerDao {
                 return null;
             }
 
-            PlayerModel player = new PlayerModel(rs.getString(1), rs.getInt(2), rs.getInt(3), rs.getInt(4));
+            PlayerModel player = new PlayerModel(rs.getString(1), rs.getInt(2), rs.getInt(3), rs.getInt(4), rs.getInt(5), rs.getInt(6));
             player.setId(id);
             return player;
         } catch (SQLException e) {

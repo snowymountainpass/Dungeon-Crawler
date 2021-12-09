@@ -184,8 +184,6 @@ public class Main extends Application {
     }
 
 
-
-
     private void enemyMove() {
         for (Actor actor : map.getEnemies()) {
             actor.move();
@@ -214,6 +212,7 @@ public class Main extends Application {
         int passStrength = map.getPlayer().getStrength();
         Inventory passInventory = map.getPlayer().getInventory();
 
+
         switch (keyEvent.getCode()) {
             case UP, W:
 
@@ -224,12 +223,13 @@ public class Main extends Application {
                     break;
 
                 }
+                refresh();
                 map.getPlayer().move(0, -1);
                 enemyMove();
                 refresh();
 
                 break;
-            case DOWN:
+            case DOWN, S:
 
                 if (player.getInventory().getKeyInInventory() && map.getCell(player.getX(), player.getY()).getNeighbor(0, 1).getType() == CellType.DOOR) {
 
@@ -238,7 +238,7 @@ public class Main extends Application {
                     break;
 
                 }
-
+                refresh();
                 map.getPlayer().move(0, 1);
                 enemyMove();
                 refresh();
@@ -252,7 +252,7 @@ public class Main extends Application {
                     break;
 
                 }
-
+                refresh();
                 map.getPlayer().move(-1, 0);
                 enemyMove();
                 refresh();
@@ -266,20 +266,16 @@ public class Main extends Application {
                     break;
 
                 }
-
+                refresh();
                 map.getPlayer().move(1, 0);
                 enemyMove();
                 refresh();
                 break;
-            case S:
-                if (keyEvent.isControlDown()) {
-                    String currentMap = getCurrentMapAsString();
-                    String otherMap = getOtherMapAsString();
-                    System.out.println(currentMap);
-                    System.out.println(otherMap);
-                modal.saveGameModal(dbManager, currentMap, otherMap, player);
-                }
-                break;
+//            case S:
+//                if (keyEvent.isControlDown()) {
+//                    modal.saveGameModal(dbManager, player);
+//                }
+//                break;
         }
     }
 
@@ -296,7 +292,6 @@ public class Main extends Application {
         refresh();
         return;
     }
-
 
 
     private void setupDbManager() {
@@ -347,9 +342,9 @@ public class Main extends Application {
             }
             context.fillRect(0, 0, canvas.getWidth(), canvas.getHeight());
             for (int x = 0; x < map.getWidth(); x++) {
-                int relativeX = x-shiftX;
+                int relativeX = x - shiftX;
                 for (int y = 0; y < map.getHeight(); y++) {
-                    int relativeY = y-shiftY;
+                    int relativeY = y - shiftY;
                     Cell cell = map.getCell(x, y);
                     if (cell.getActor() != null && !cell.getActor().isDead()) {
 
