@@ -4,6 +4,8 @@ import com.codecool.dungeoncrawl.dao.GameDatabaseManager;
 
 import com.codecool.dungeoncrawl.logic.actors.Player;
 
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.geometry.Insets;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
@@ -17,7 +19,7 @@ public class ModalHandler {
     private int gameId;
 
     public void saveGameModal(GameDatabaseManager dbManager,String currentMap,String otherMap, Player player) {
-        TextField nameInput = new TextField("test");
+        TextField nameInput = new TextField();
         Button save = new Button("Save");
         Button cancel = new Button("Cancel");
         VBox layout = new VBox(2);
@@ -29,10 +31,20 @@ public class ModalHandler {
         saveStage.setScene(saveScene);
         saveStage.show();
         String saveName = nameInput.getText();
-        save.setOnAction(event -> {
-            dbManager.saveGame(currentMap, otherMap, new Date(System.currentTimeMillis()), saveName, player);
-            saveStage.close();
+        System.out.println(saveName);
+
+        save.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent actionEvent) {
+                dbManager.saveGame(currentMap, otherMap, new Date(System.currentTimeMillis()), saveName, player);
+                saveStage.close();
+            }
         });
+
+//        save.setOnAction(event -> {
+//            dbManager.saveGame(currentMap, otherMap, new Date(System.currentTimeMillis()), saveName, player);
+//            saveStage.close();
+//        });
         cancel.setOnAction(event -> saveStage.close());
     }
 }

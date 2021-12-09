@@ -5,7 +5,7 @@ CREATE TABLE public.game_state
     current_map text                                                  NOT NULL,
     other_map   text                                                  NOT NULL,
     saved_at    timestamp without time zone DEFAULT CURRENT_TIMESTAMP NOT NULL,
-    player_id   integer                                               NOT NULL,
+    player_id   serial                                                NOT NULL,
     save_name   text                                                  NOT NULL
 );
 
@@ -15,9 +15,9 @@ CREATE TABLE public.player
     id          serial  NOT NULL PRIMARY KEY,
     player_name text    NOT NULL,
     hp          integer NOT NULL,
-    x           integer ,
-    y           integer ,
-    strength    integer ,
+    x           integer,
+    y           integer,
+    strength    integer,
     armor       integer
 );
 

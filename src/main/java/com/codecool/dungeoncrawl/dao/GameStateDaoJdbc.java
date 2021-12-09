@@ -19,13 +19,15 @@ public class GameStateDaoJdbc implements GameStateDao {
     @Override
     public void add(GameState state) {
         try (Connection conn = dataSource.getConnection()) {
-            String sql = "INSERT INTO game_state (current_map, other_map, saved_at, player_id, save_name) VALUES (?, ?, ?, ?, ?)";
+
+
+            String sql = "INSERT INTO game_state (current_map, other_map, saved_at, save_name) VALUES (?, ?, ?, ?)";
             PreparedStatement statement = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
             statement.setString(1, state.getCurrentMap());
             statement.setString(2, state.getOtherMap());
             statement.setDate(3, state.getSavedAt());
-            statement.setInt(4, state.getPlayer().getId());
-            statement.setString(5, state.getSaveName());
+            statement.setString(4, state.getSaveName());
+//            statement.setInt(5, state.getPlayer().getId());
             statement.executeUpdate();
             ResultSet resultSet = statement.getGeneratedKeys();
             resultSet.next();
@@ -35,6 +37,8 @@ public class GameStateDaoJdbc implements GameStateDao {
         }
     }
 
+
+
     @Override
     public void update(GameState state) {
 
@@ -42,6 +46,7 @@ public class GameStateDaoJdbc implements GameStateDao {
 
     @Override
     public GameState get(int id) {
+
         return null;
     }
 
@@ -50,3 +55,5 @@ public class GameStateDaoJdbc implements GameStateDao {
         return null;
     }
 }
+
+
