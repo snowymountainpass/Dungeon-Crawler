@@ -5,6 +5,8 @@ public enum CellType {
     EMPTY("empty"),
     FLOOR("floor"),
     FLOOR_FANCY("floor_fancy"),
+    WATER("water"),
+    WATERFALL("waterfall"),
     WALL("wall"),
     SECRET_WALL("secret_wall"),
     VINE("vine"),

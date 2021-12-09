@@ -118,7 +118,6 @@ public class Main extends Application {
         });
         saveButton.setFocusTraversable(false);
 
-        // TO BE IMPLEMENTED : SET FLAG LOADGAME TRUE
         loadButton.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent actionEvent) {
@@ -127,13 +126,7 @@ public class Main extends Application {
                 ArrayList<String> savedGames = new ArrayList<>();
                 savedGames = dbManager.getPlayerNames();
                 System.out.println(savedGames);
-//                modal.loadGameModal(dbManager, savedGames);
                loadGameModal(dbManager, savedGames);
-
-
-
-
-
             }
         });
         loadButton.setFocusTraversable(false);
@@ -159,7 +152,6 @@ public class Main extends Application {
                         map.getPlayer().setHealth(1000);
                         map.getPlayer().setStrength(1000);
                     }
-                    // "classes" ?
                     if (playerNameField.getText().contains("hero".toLowerCase(Locale.ROOT))) {
                         map.getPlayer().setHealth(250);
                         map.getPlayer().setStrength(25);
@@ -177,7 +169,6 @@ public class Main extends Application {
             });
 
         }
-
 
         BorderPane borderPane = new BorderPane();
 
@@ -212,12 +203,6 @@ public class Main extends Application {
     }
 
 
-//    public void loadNextLevel(int level) {
-//        this.map = MapLoader.loadMap(level);
-//        this.move = new Move(this.map);
-//        refresh();
-//    }
-
     public int getCurrentLevel() {
         return currentLevel;
     }
@@ -225,7 +210,6 @@ public class Main extends Application {
     public void setCurrentLevel(int level) {
         this.currentLevel = level;
     }
-
 
     private void onKeyPressed(KeyEvent keyEvent) {
         int passHealth = map.getPlayer().getHealth();
@@ -365,14 +349,11 @@ public class Main extends Application {
                     Cell cell = map.getCell(x, y);
                     if (cell.getActor() != null && !cell.getActor().isDead()) {
 
-//                        Tiles.drawTile(context, cell.getActor(), x, y);
                         Tiles.drawTile(context, cell.getActor(), relativeX, relativeY);
 
                     } else if (cell.getItem() != null) {
-//                        Tiles.drawTile(context, cell.getItem(), x, y);
                         Tiles.drawTile(context, cell.getItem(), relativeX, relativeY);
                     } else {
-//                        Tiles.drawTile(context, cell, x, y);
                         Tiles.drawTile(context, cell, relativeX, relativeY);
                     }
                 }
@@ -414,6 +395,8 @@ public class Main extends Application {
 
     public void loadGameModal(GameDatabaseManager dbManager, ArrayList<String> savedGames) {
         VBox loadGamesLayout = new VBox();
+        Scene loadScene = new Scene(loadGamesLayout, 350, 350);
+        Stage loadStage = new Stage();
 
         for (int i = 0; i < savedGames.size(); i++) {
             Button save = new Button(savedGames.get(i));
@@ -432,13 +415,13 @@ public class Main extends Application {
                     player.setStrength(loadedPlayer.getStrength());
                     player.setArmor(loadedPlayer.getArmor());
                     player.setName(save.getText());
-                    refresh();
+//                    refresh();
+                    loadStage.close();
+
                 }
             });
 
         }
-        Scene loadScene = new Scene(loadGamesLayout, 350, 350);
-        Stage loadStage = new Stage();
         loadStage.setTitle("Load Game");
         loadStage.setScene(loadScene);
         loadStage.show();

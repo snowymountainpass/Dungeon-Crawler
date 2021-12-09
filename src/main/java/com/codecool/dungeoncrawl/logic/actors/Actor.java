@@ -34,9 +34,10 @@ public abstract class Actor implements Drawable {
     public void move(int dx, int dy) {
         Cell nextCell = getCell().getNeighbor(dx, dy);
 
-        if ((nextCell.getType() != CellType.WALL && nextCell.getType() != CellType.SECRET_WALL)  &&
+        if ((nextCell.getType() != CellType.WALL && nextCell.getType() != CellType.SECRET_WALL && nextCell.getType() != CellType.WATER) &&
                 (nextCell.getType() == CellType.FLOOR ||
-                nextCell.getType() == CellType.FLOOR_FANCY ) && nextCell.getActor() == null) {
+                        nextCell.getType() == CellType.FLOOR_FANCY ||
+                        nextCell.getType() == CellType.WATERFALL) && nextCell.getActor() == null) {
             cell.setActor(null);
             nextCell.setActor(this);
             cell = nextCell;
@@ -114,7 +115,6 @@ public abstract class Actor implements Drawable {
         this.health -= value;
     }
 
-    //TODO healing items
     public void increaseHealth(int value) {
         this.health += value;
     }

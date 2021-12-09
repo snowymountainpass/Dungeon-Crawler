@@ -112,16 +112,12 @@ public class PlayerDaoJdbc implements PlayerDao {
 
             String firstEntry = resultSet.getString("player_name");
             playerNames.add(firstEntry);
-            System.out.println("FIRST ENTRY IS " + firstEntry);
-            System.out.println("PLAYER NAMES CONTAINS " + playerNames);
 
 
             while (resultSet.next()) {
                 String name = new String(resultSet.getString("player_name"));
-                System.out.println("IN PLAYER DAO, NAME: " + name);
                 playerNames.add(name);
             }
-            System.out.println(playerNames);
             return playerNames;
         } catch (SQLException e) {
             throw new RuntimeException(e);
