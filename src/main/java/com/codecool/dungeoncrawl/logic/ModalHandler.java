@@ -15,6 +15,7 @@ import javafx.stage.Stage;
 
 import java.sql.Date;
 import java.util.ArrayList;
+import java.util.concurrent.atomic.AtomicReference;
 
 
 public class ModalHandler {
@@ -43,17 +44,12 @@ public class ModalHandler {
                 saveStage.close();
             }
         });
-
-//        save.setOnAction(event -> {
-//            dbManager.saveGame(currentMap, otherMap, new Date(System.currentTimeMillis()), saveName, player);
-//            saveStage.close();
-//        });
         cancel.setOnAction(event -> saveStage.close());
     }
 
-    // int?
-    public PlayerModel loadGameModal(GameDatabaseManager dbManager, ArrayList<String> savedGames) {
+    public void loadGameModal(GameDatabaseManager dbManager, ArrayList<String> savedGames) {
         VBox loadGamesLayout = new VBox();
+        AtomicReference<PlayerModel> returnValue = new AtomicReference<>();
 
         for (int i = 0; i < savedGames.size(); i++) {
             Button save = new Button(savedGames.get(i));
@@ -66,6 +62,7 @@ public class ModalHandler {
                     System.out.println(selectedSave);
                     loadedPlayer = dbManager.loadPlayer(selectedSave);
                     System.out.println(loadedPlayer);
+                    returnValue.set(loadedPlayer);
                 }
             });
 
@@ -75,12 +72,7 @@ public class ModalHandler {
         loadStage.setTitle("Load Game");
         loadStage.setScene(loadScene);
         loadStage.show();
-
-        System.out.println("LOADED PLAYER BEFORE RETURN" + loadedPlayer);
-
-        return loadedPlayer;
-
-
     }
+
 }
 
