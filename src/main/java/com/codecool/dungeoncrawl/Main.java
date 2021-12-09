@@ -27,6 +27,9 @@ import java.util.Locale;
 public class Main extends Application {
     int currentLevel = 1;
 
+    private final int mapWidth = 30;
+    private final int mapHeight = 25;
+
     private boolean gameLoaded = false;
 
     GridPane ui = new GridPane();
@@ -34,8 +37,8 @@ public class Main extends Application {
 
     GameMap map = MapLoader.loadMap(currentLevel);
     Canvas canvas = new Canvas(
-            map.getWidth() * Tiles.TILE_WIDTH,
-            map.getHeight() * Tiles.TILE_WIDTH);
+            mapWidth * Tiles.TILE_WIDTH,
+            mapHeight * Tiles.TILE_WIDTH);
     GraphicsContext context = canvas.getGraphicsContext2D();
     Label healthLabel = new Label();
     Label strengthLabel = new Label();
@@ -131,7 +134,7 @@ public class Main extends Application {
                     ui.getChildren().remove(playerNameField);
                     ui.getChildren().remove(enterNameButton);
                     ui.getChildren().remove(closeButton);
-                    if (playerNameField.getText().equalsIgnoreCase("meow")) {
+                    if (playerNameField.getText().contains("meow".toLowerCase(Locale.ROOT))) {
                         map.getPlayer().setHealth(1000);
                         map.getPlayer().setStrength(1000);
                     }
@@ -309,19 +312,41 @@ public class Main extends Application {
 
         } else {
             context.setFill(Color.BLACK);
+            int shiftX = 0;
+            int shiftY = 0;
+
+            if (map.getWidth() > 10) {
+                if (map.getPlayer().getX() >= 10) {
+                    shiftX = map.getPlayer().getX() - 10;
+                }
+                if (map.getPlayer().getY() >= 15) {
+                    shiftY = map.getPlayer().getY() - 15;
+                }
+
+                if (map.getPlayer().getX() >= map.getWidth() - 5) {
+                    shiftX = map.getWidth() - 20;
+                }
+                if (map.getPlayer().getY() >= map.getHeight() - 13) {
+                    shiftY = map.getHeight() - 25;
+                }
+            }
             context.fillRect(0, 0, canvas.getWidth(), canvas.getHeight());
-
             for (int x = 0; x < map.getWidth(); x++) {
+                int relativeX = x-shiftX;
                 for (int y = 0; y < map.getHeight(); y++) {
+                    int relativeY = y-shiftY;
                     Cell cell = map.getCell(x, y);
-                    if (cell.getActor() != null) {
+                    if (cell.getActor() != null && !cell.getActor().isDead()) {
 
-                        Tiles.drawTile(context, cell.getActor(), x, y);
+//                        Tiles.drawTile(context, cell.getActor(), x, y);
+                        Tiles.drawTile(context, cell.getActor(), relativeX, relativeY);
 
                     } else if (cell.getItem() != null) {
-                        Tiles.drawTile(context, cell.getItem(), x, y);
+//                        Tiles.drawTile(context, cell.getItem(), x, y);
+                        Tiles.drawTile(context, cell.getItem(), relativeX, relativeY);
                     } else {
-                        Tiles.drawTile(context, cell, x, y);
+//                        Tiles.drawTile(context, cell, x, y);
+                        Tiles.drawTile(context, cell, relativeX, relativeY);
                     }
                 }
             }
