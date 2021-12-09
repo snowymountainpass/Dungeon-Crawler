@@ -2,8 +2,10 @@ DROP TABLE IF EXISTS public.game_state;
 CREATE TABLE public.game_state (
     id serial NOT NULL PRIMARY KEY,
     current_map text NOT NULL,
+    other_map text NOT NULL,
     saved_at timestamp without time zone DEFAULT CURRENT_TIMESTAMP NOT NULL,
-    player_id integer NOT NULL
+    player_id integer NOT NULL,
+    save_name text NOT NULL
 );
 
 DROP TABLE IF EXISTS public.player;
@@ -12,7 +14,9 @@ CREATE TABLE public.player (
     player_name text NOT NULL,
     hp integer NOT NULL,
     x integer NOT NULL,
-    y integer NOT NULL
+    y integer NOT NULL,
+    strength integer NOT NULL,
+    armor integer NOT NULL
 );
 
 ALTER TABLE ONLY public.game_state
