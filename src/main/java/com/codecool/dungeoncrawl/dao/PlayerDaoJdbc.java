@@ -95,7 +95,7 @@ public class PlayerDaoJdbc implements PlayerDao {
             System.out.println("FIRST ENTRY IS " + firstEntry);
             System.out.println("PLAYER NAMES CONTAINS " + playerNames);
 
-            
+
             while (resultSet.next()) {
                 String name = new String(resultSet.getString("player_name"));
                 System.out.println("IN PLAYER DAO, NAME: " + name);

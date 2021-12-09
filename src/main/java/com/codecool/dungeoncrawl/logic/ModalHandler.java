@@ -13,6 +13,7 @@ import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
 import java.sql.Date;
+import java.util.ArrayList;
 
 
 public class ModalHandler {
@@ -47,6 +48,22 @@ public class ModalHandler {
 //            saveStage.close();
 //        });
         cancel.setOnAction(event -> saveStage.close());
+    }
+
+    // int?
+    public void loadGameModal(ArrayList<String> savedGames) {
+        ListView listView = new ListView();
+        VBox loadGamesLayout = new VBox();
+        for (int i = 0; i < savedGames.size(); i++) {
+            Button save = new Button(savedGames.get(i));
+            loadGamesLayout.getChildren().add(i, save);
+
+        }
+        Scene loadScene = new Scene(loadGamesLayout, 350, 350);
+        Stage loadStage = new Stage();
+        loadStage.setTitle("Load Game");
+        loadStage.setScene(loadScene);
+        loadStage.show();
     }
 }
 
