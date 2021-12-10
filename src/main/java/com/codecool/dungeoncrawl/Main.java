@@ -109,7 +109,6 @@ public class Main extends Application {
         saveButton.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent actionEvent) {
-                System.out.println("SAVE BUTTON CLICKED");
                 String currentMap = getCurrentMapAsString();
                 String otherMap = getOtherMapAsString();
 //                modal.saveGameModal(dbManager, currentMap, otherMap, player);
@@ -122,10 +121,8 @@ public class Main extends Application {
             @Override
             public void handle(ActionEvent actionEvent) {
 
-                System.out.println("LOAD BUTTON CLICKED");
                 ArrayList<String> savedGames = new ArrayList<>();
                 savedGames = dbManager.getPlayerNames();
-                System.out.println(savedGames);
                loadGameModal(dbManager, savedGames);
             }
         });
@@ -148,11 +145,11 @@ public class Main extends Application {
                     ui.getChildren().remove(playerNameField);
                     ui.getChildren().remove(enterNameButton);
                     ui.getChildren().remove(closeButton);
-                    if (playerNameField.getText().contains("meow".toLowerCase(Locale.ROOT))) {
+                    if (playerNameField.getText().toLowerCase(Locale.ROOT).contains("meow".toLowerCase(Locale.ROOT))) {
                         map.getPlayer().setHealth(1000);
                         map.getPlayer().setStrength(1000);
                     }
-                    if (playerNameField.getText().contains("hero".toLowerCase(Locale.ROOT))) {
+                    if (playerNameField.getText().toLowerCase(Locale.ROOT).contains("hero".toLowerCase(Locale.ROOT))) {
                         map.getPlayer().setHealth(250);
                         map.getPlayer().setStrength(25);
                     }
@@ -385,7 +382,6 @@ public class Main extends Application {
             @Override
             public void handle(ActionEvent actionEvent) {
                 String saveName = nameInput.getText();
-                System.out.println(saveName);
                 dbManager.saveGame(currentMap, otherMap, new Date(System.currentTimeMillis()), saveName, player);
                 saveStage.close();
             }
@@ -398,30 +394,32 @@ public class Main extends Application {
         Scene loadScene = new Scene(loadGamesLayout, 350, 350);
         Stage loadStage = new Stage();
 
-        for (int i = 0; i < savedGames.size(); i++) {
-            Button save = new Button(savedGames.get(i));
-            loadGamesLayout.getChildren().add(i, save);
-            save.setOnAction(new EventHandler<ActionEvent>() {
-                @Override
-                public void handle(ActionEvent actionEvent) {
-                    PlayerModel loadedPlayer;
-                    String selectedSave = save.getText();
-                    System.out.println(selectedSave);
-                    loadedPlayer = dbManager.loadPlayer(selectedSave);
-                    System.out.println(loadedPlayer);
-                    player.setHealth(loadedPlayer.getHp());
-                    player.setX(loadedPlayer.getX());
-                    player.setY(loadedPlayer.getY());
-                    player.setStrength(loadedPlayer.getStrength());
-                    player.setArmor(loadedPlayer.getArmor());
-                    player.setName(save.getText());
+        if (savedGames != null) {
+
+            for (int i = 0; i < savedGames.size(); i++) {
+                Button save = new Button(savedGames.get(i));
+                loadGamesLayout.getChildren().add(i, save);
+                save.setOnAction(new EventHandler<ActionEvent>() {
+                    @Override
+                    public void handle(ActionEvent actionEvent) {
+                        PlayerModel loadedPlayer;
+                        String selectedSave = save.getText();
+                        loadedPlayer = dbManager.loadPlayer(selectedSave);
+                        player.setHealth(loadedPlayer.getHp());
+                        player.setX(loadedPlayer.getX());
+                        player.setY(loadedPlayer.getY());
+                        player.setStrength(loadedPlayer.getStrength());
+                        player.setArmor(loadedPlayer.getArmor());
+                        player.setName(save.getText());
+                        gameLoaded = true;
 //                    refresh();
-                    loadStage.close();
+                        loadStage.close();
 
-                }
-            });
+                    }
+                });
 
-        }
+            }
+        } else System.out.println("No saves found");
         loadStage.setTitle("Load Game");
         loadStage.setScene(loadScene);
         loadStage.show();
