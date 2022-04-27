@@ -54,8 +54,6 @@ public class Main extends Application {
 
     GameDatabaseManager dbManager = new GameDatabaseManager();
 
-    ModalHandler modal = new ModalHandler();
-
     Player player = map.getPlayer();
 
     Label currentPlayer = new Label("Player");
@@ -112,7 +110,6 @@ public class Main extends Application {
                 System.out.println("SAVE BUTTON CLICKED");
                 String currentMap = getCurrentMapAsString();
                 String otherMap = getOtherMapAsString();
-//                modal.saveGameModal(dbManager, currentMap, otherMap, player);
                 saveGameModal(dbManager, currentMap, otherMap, player);
             }
         });
@@ -127,8 +124,7 @@ public class Main extends Application {
                 ArrayList<String> savedGames = new ArrayList<>();
                 savedGames = dbManager.getPlayerNames();
                 System.out.println(savedGames);
-//                modal.loadGameModal(dbManager, savedGames);
-               loadGameModal(dbManager, savedGames);
+                loadGameModal(dbManager, savedGames);
 
 
 

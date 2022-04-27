@@ -31,12 +31,12 @@ public class Inventory {
 
     @Override
     public String toString() {
-        String inventoryAsString="";
+        StringBuilder inventoryAsString= new StringBuilder();
         if (inventoryList != null) {
-            for (int i = 0; i < inventoryList.size(); i++) {
-                inventoryAsString = inventoryAsString + inventoryList.get(i).getTileName()+"\n";
+            for (Item item : inventoryList) {
+                inventoryAsString.append(item.getTileName()).append("\n");
             }
-            return inventoryAsString;
+            return inventoryAsString.toString();
         }
         return "Empty";
     }
