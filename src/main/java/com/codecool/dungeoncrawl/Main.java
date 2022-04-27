@@ -381,14 +381,17 @@ public class Main extends Application {
             Button save = new Button(savedGames.get(i));
             loadGamesLayout.getChildren().add(i, save);
             save.setOnAction(actionEvent -> {
-                PlayerModel loadedPlayer;
                 String selectedSave = save.getText();
                 System.out.println(selectedSave);
-                loadedPlayer = dbManager.loadPlayer(selectedSave);
+                PlayerModel loadedPlayer = dbManager.loadPlayer(selectedSave);
                 System.out.println(loadedPlayer);
                 player.setHealth(loadedPlayer.getHp());
+                System.out.println("Previous player X position: " + player.getX());
+                System.out.println("Previous player Y position: " + player.getY());
                 player.setX(loadedPlayer.getX());
                 player.setY(loadedPlayer.getY());
+                System.out.println("Current player X position: " + player.getX());
+                System.out.println("Current player Y position: " + player.getY());
                 player.setStrength(loadedPlayer.getStrength());
                 player.setArmor(loadedPlayer.getArmor());
                 player.setName(save.getText());
