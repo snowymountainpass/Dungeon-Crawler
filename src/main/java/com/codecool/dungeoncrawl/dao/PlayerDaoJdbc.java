@@ -88,8 +88,7 @@ public class PlayerDaoJdbc implements PlayerDao {
                 return null;
             }
 
-            PlayerModel player = new PlayerModel(rs.getInt("hp"), rs.getInt("x"), rs.getInt("y"), rs.getInt("strength"), rs.getInt("armor"));
-            return player;
+            return new PlayerModel(rs.getInt("hp"), rs.getInt("x"), rs.getInt("y"), rs.getInt("strength"), rs.getInt("armor"));
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
@@ -117,7 +116,7 @@ public class PlayerDaoJdbc implements PlayerDao {
 
 
             while (resultSet.next()) {
-                String name = new String(resultSet.getString("player_name"));
+                String name = resultSet.getString("player_name");
                 System.out.println("IN PLAYER DAO, NAME: " + name);
                 playerNames.add(name);
             }

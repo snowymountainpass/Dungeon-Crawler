@@ -27,7 +27,6 @@ public class GameStateDaoJdbc implements GameStateDao {
             statement.setString(2, state.getOtherMap());
             statement.setDate(3, state.getSavedAt());
             statement.setString(4, state.getSaveName());
-//            statement.setInt(5, state.getPlayer().getId());
             statement.executeUpdate();
             ResultSet resultSet = statement.getGeneratedKeys();
             resultSet.next();

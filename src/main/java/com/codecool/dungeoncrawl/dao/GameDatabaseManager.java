@@ -32,15 +32,12 @@ public class GameDatabaseManager {
     }
 
     public PlayerModel loadPlayer(String playerName) {
-        PlayerModel player = playerDao.get(playerName);
-        return player;
+        return playerDao.get(playerName);
     }
 
     private DataSource connect() throws SQLException {
         PGSimpleDataSource dataSource = new PGSimpleDataSource();
-//        String dbName = "test";
-//        String user = "test";
-//        String password = "test";
+
         ApplicationProperties properties = new ApplicationProperties();
         dataSource.setDatabaseName(properties.readProperty("database"));
         dataSource.setUser(properties.readProperty("user"));
