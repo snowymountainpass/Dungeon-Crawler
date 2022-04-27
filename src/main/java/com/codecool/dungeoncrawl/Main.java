@@ -104,33 +104,22 @@ public class Main extends Application {
         ui.add(loadButton, 1, 9);
 
 
-        saveButton.setOnAction(new EventHandler<ActionEvent>() {
-            @Override
-            public void handle(ActionEvent actionEvent) {
-                System.out.println("SAVE BUTTON CLICKED");
-                String currentMap = getCurrentMapAsString();
-                String otherMap = getOtherMapAsString();
-                saveGameModal(dbManager, currentMap, otherMap, player);
-            }
+        saveButton.setOnAction(actionEvent -> {
+            System.out.println("SAVE BUTTON CLICKED");
+            String currentMap = getCurrentMapAsString();
+            String otherMap = getOtherMapAsString();
+            saveGameModal(dbManager, currentMap, otherMap, player);
         });
         saveButton.setFocusTraversable(false);
 
         // TO BE IMPLEMENTED : SET FLAG LOADGAME TRUE
-        loadButton.setOnAction(new EventHandler<ActionEvent>() {
-            @Override
-            public void handle(ActionEvent actionEvent) {
+        loadButton.setOnAction(actionEvent -> {
 
-                System.out.println("LOAD BUTTON CLICKED");
-                ArrayList<String> savedGames = new ArrayList<>();
-                savedGames = dbManager.getPlayerNames();
-                System.out.println(savedGames);
-                loadGameModal(dbManager, savedGames);
-
-
-
-
-
-            }
+            System.out.println("LOAD BUTTON CLICKED");
+            ArrayList<String> savedGames;
+            savedGames = dbManager.getPlayerNames();
+            System.out.println(savedGames);
+            loadGameModal(dbManager, savedGames);
         });
         loadButton.setFocusTraversable(false);
 
@@ -142,34 +131,28 @@ public class Main extends Application {
             ui.add(enterNameButton, 1, 18);
             ui.add(closeButton, 2, 18);
 
-            enterNameButton.setOnAction(new EventHandler<ActionEvent>() {
-                @Override
-                public void handle(ActionEvent actionEvent) {
-                    map.getPlayer().setName(playerNameField.getText());
-                    currentPlayer.setText(playerNameField.getText());
-                    ui.getChildren().remove(nameInputLabel);
-                    ui.getChildren().remove(playerNameField);
-                    ui.getChildren().remove(enterNameButton);
-                    ui.getChildren().remove(closeButton);
-                    if (playerNameField.getText().contains("meow".toLowerCase(Locale.ROOT))) {
-                        map.getPlayer().setHealth(1000);
-                        map.getPlayer().setStrength(1000);
-                    }
-                    // "classes" ?
-                    if (playerNameField.getText().contains("hero".toLowerCase(Locale.ROOT))) {
-                        map.getPlayer().setHealth(250);
-                        map.getPlayer().setStrength(25);
-                    }
-                    gameLoaded = true;
-                    canvas.requestFocus();
+            enterNameButton.setOnAction(actionEvent -> {
+                map.getPlayer().setName(playerNameField.getText());
+                currentPlayer.setText(playerNameField.getText());
+                ui.getChildren().remove(nameInputLabel);
+                ui.getChildren().remove(playerNameField);
+                ui.getChildren().remove(enterNameButton);
+                ui.getChildren().remove(closeButton);
+                if (playerNameField.getText().contains("meow".toLowerCase(Locale.ROOT))) {
+                    map.getPlayer().setHealth(1000);
+                    map.getPlayer().setStrength(1000);
                 }
+                // "classes" ?
+                if (playerNameField.getText().contains("hero".toLowerCase(Locale.ROOT))) {
+                    map.getPlayer().setHealth(250);
+                    map.getPlayer().setStrength(25);
+                }
+                gameLoaded = true;
+                canvas.requestFocus();
             });
-            closeButton.setOnAction(new EventHandler<ActionEvent>() {
-                @Override
-                public void handle(ActionEvent actionEvent) {
-                    removeNameLabel();
-                    canvas.requestFocus();
-                }
+            closeButton.setOnAction(actionEvent -> {
+                removeNameLabel();
+                canvas.requestFocus();
             });
 
         }
@@ -207,13 +190,6 @@ public class Main extends Application {
         }
     }
 
-
-//    public void loadNextLevel(int level) {
-//        this.map = MapLoader.loadMap(level);
-//        this.move = new Move(this.map);
-//        refresh();
-//    }
-
     public int getCurrentLevel() {
         return currentLevel;
     }
@@ -231,8 +207,7 @@ public class Main extends Application {
 
 
         switch (keyEvent.getCode()) {
-            case UP, W:
-
+            case UP, W -> {
                 if (player.getInventory().getKeyInInventory() && map.getCell(player.getX(), player.getY()).getNeighbor(0, -1).getType() == CellType.DOOR) {
 
                     passDoor(passHealth, passArmor, passStrength, passInventory);
@@ -244,10 +219,8 @@ public class Main extends Application {
                 map.getPlayer().move(0, -1);
                 enemyMove();
                 refresh();
-
-                break;
-            case DOWN, S:
-
+            }
+            case DOWN, S -> {
                 if (player.getInventory().getKeyInInventory() && map.getCell(player.getX(), player.getY()).getNeighbor(0, 1).getType() == CellType.DOOR) {
 
                     passDoor(passHealth, passArmor, passStrength, passInventory);
@@ -259,9 +232,8 @@ public class Main extends Application {
                 map.getPlayer().move(0, 1);
                 enemyMove();
                 refresh();
-                break;
-            case LEFT, A:
-
+            }
+            case LEFT, A -> {
                 if (player.getInventory().getKeyInInventory() && map.getCell(player.getX(), player.getY()).getNeighbor(-1, 0).getType() == CellType.DOOR) {
 
                     passDoor(passHealth, passArmor, passStrength, passInventory);
@@ -273,9 +245,8 @@ public class Main extends Application {
                 map.getPlayer().move(-1, 0);
                 enemyMove();
                 refresh();
-                break;
-            case RIGHT, D:
-
+            }
+            case RIGHT, D -> {
                 if (player.getInventory().getKeyInInventory() && map.getCell(player.getX(), player.getY()).getNeighbor(1, 0).getType() == CellType.DOOR) {
 
                     passDoor(passHealth, passArmor, passStrength, passInventory);
@@ -287,8 +258,7 @@ public class Main extends Application {
                 map.getPlayer().move(1, 0);
                 enemyMove();
                 refresh();
-                break;
-
+            }
         }
     }
 
@@ -303,7 +273,6 @@ public class Main extends Application {
         player.setCell(map.getCell(player.getX(), player.getY()));
         map.setPlayer(player);
         refresh();
-        return;
     }
 
 
@@ -396,14 +365,11 @@ public class Main extends Application {
         saveStage.show();
 
 
-        save.setOnAction(new EventHandler<ActionEvent>() {
-            @Override
-            public void handle(ActionEvent actionEvent) {
-                String saveName = nameInput.getText();
-                System.out.println(saveName);
-                dbManager.saveGame(currentMap, otherMap, new Date(System.currentTimeMillis()), saveName, player);
-                saveStage.close();
-            }
+        save.setOnAction(actionEvent -> {
+            String saveName = nameInput.getText();
+            System.out.println(saveName);
+            dbManager.saveGame(currentMap, otherMap, new Date(System.currentTimeMillis()), saveName, player);
+            saveStage.close();
         });
         cancel.setOnAction(event -> saveStage.close());
     }
@@ -414,22 +380,19 @@ public class Main extends Application {
         for (int i = 0; i < savedGames.size(); i++) {
             Button save = new Button(savedGames.get(i));
             loadGamesLayout.getChildren().add(i, save);
-            save.setOnAction(new EventHandler<ActionEvent>() {
-                @Override
-                public void handle(ActionEvent actionEvent) {
-                    PlayerModel loadedPlayer;
-                    String selectedSave = save.getText();
-                    System.out.println(selectedSave);
-                    loadedPlayer = dbManager.loadPlayer(selectedSave);
-                    System.out.println(loadedPlayer);
-                    player.setHealth(loadedPlayer.getHp());
-                    player.setX(loadedPlayer.getX());
-                    player.setY(loadedPlayer.getY());
-                    player.setStrength(loadedPlayer.getStrength());
-                    player.setArmor(loadedPlayer.getArmor());
-                    player.setName(save.getText());
-                    refresh();
-                }
+            save.setOnAction(actionEvent -> {
+                PlayerModel loadedPlayer;
+                String selectedSave = save.getText();
+                System.out.println(selectedSave);
+                loadedPlayer = dbManager.loadPlayer(selectedSave);
+                System.out.println(loadedPlayer);
+                player.setHealth(loadedPlayer.getHp());
+                player.setX(loadedPlayer.getX());
+                player.setY(loadedPlayer.getY());
+                player.setStrength(loadedPlayer.getStrength());
+                player.setArmor(loadedPlayer.getArmor());
+                player.setName(save.getText());
+                refresh();
             });
 
         }
