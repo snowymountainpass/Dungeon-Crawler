@@ -53,34 +53,32 @@ public class Player extends Actor {
         Cell nextCell = getCell().getNeighbor(dx, dy);
         if ((nextCell.getType()== CellType.FLOOR || nextCell.getType()== CellType.FLOOR_FANCY || nextCell.getType() == CellType.SECRET_WALL) && nextCell.getActor() == null) {
             if (nextCell.getItem()!=null) {
-                switch (nextCell.getItem().getTileName()){
-                    case "key":
+                switch (nextCell.getItem().getTileName()) {
+                    case "key" -> {
                         inventory.addItem(nextCell.getItem());
                         inventory.setKeyInInventory(true);
                         nextCell.setItem(null);
-                        break;
-                    case "sword":
+                    }
+                    case "sword" -> {
                         Actor player = getCell().getActor();
                         Item sword = nextCell.getItem();
                         inventory.addItem(nextCell.getItem());
-                        player.setStrength(player.getStrength()+sword.getPoints());
+                        player.setStrength(player.getStrength() + sword.getPoints());
                         nextCell.setItem(null);
-                        break;
-                    case "shield":
+                    }
+                    case "shield" -> {
                         inventory.addItem(nextCell.getItem());
                         getCell().getActor().increaseArmor(nextCell.getItem().getPoints());
                         nextCell.setItem(null);
-                        break;
-
-                    case "healthpotion":
+                    }
+                    case "healthpotion" -> {
                         HealthPotion.increaseHealth(this);
                         nextCell.setItem(null);
-                        break;
-
-                    case "strengthpotion":
+                    }
+                    case "strengthpotion" -> {
                         StrengthPotion.increaseStrength(this);
                         nextCell.setItem(null);
-                        break;
+                    }
                 }
             }
             getCell().setActor(null);
@@ -103,8 +101,7 @@ public class Player extends Actor {
     }
 
     public String showInventory(){
-        String inventoryContains = getInventory().toString();
-        return inventoryContains;
+        return getInventory().toString();
     }
 
     @Override

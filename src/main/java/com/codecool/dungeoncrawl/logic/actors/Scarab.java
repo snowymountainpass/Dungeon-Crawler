@@ -59,11 +59,10 @@ public class Scarab extends Actor {
                     cell.setActor(null);
                     nextCell.setActor(this);
                     cell = nextCell;
-                    burrow = 5;
                 } else {
                     cell.setActor(this);
-                    burrow = 5;
                 }
+                burrow = 5;
             }
         } catch (Exception e) {
             burrow = 5;

@@ -18,7 +18,6 @@ public class Skeleton extends Actor {
 
     @Override
     public String getTileName() {
-
         return "skeleton";
     }
 
@@ -59,11 +58,10 @@ public class Skeleton extends Actor {
                     cell.setActor(null);
                     nextCell.setActor(this);
                     cell = nextCell;
-                    burrow = 5;
                 } else {
                     cell.setActor(this);
-                    burrow = 5;
                 }
+                burrow = 5;
             }
         } catch (Exception e) {
             burrow = 5;
