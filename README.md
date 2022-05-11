@@ -27,7 +27,7 @@ Save game pop-up
 ![DC-7](https://user-images.githubusercontent.com/73165724/167830216-46d40e7f-0814-48bb-9e6b-f8f0732e3b81.png)
 
 Load game pop-up
-![DC-4](https://user-images.githubusercontent.com/73165724/167830313-fa0f470c-f7fe-4331-8ee8-85ce0bfb5365.png)\
+![DC-4](https://user-images.githubusercontent.com/73165724/167830313-fa0f470c-f7fe-4331-8ee8-85ce0bfb5365.png)
 
 Gameplay - exploring level 2
 ![DC-5](https://user-images.githubusercontent.com/73165724/167830431-7dd76b24-a362-4e0f-8bb1-1b1776ba0de8.png)
